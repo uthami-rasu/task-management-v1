@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import Logo from "../assets/logo.png";
+
+import { useTasks } from "./utils";
 export const ProfileStyle = styled.div`
   grid-area: profile;
   display: grid;
@@ -53,6 +55,8 @@ function TaskMiniCard({ heading, taskcount }) {
 }
 
 function Profile() {
+  let { completedTasks, activeTasks, tasks } = useTasks();
+
   return (
     <ProfileStyle>
       <ProfileNameStyle>
@@ -75,28 +79,28 @@ function Profile() {
               <p>Total Tasks:</p>
               <p class="stat-value">
                 <span class="stat-bar purple"></span>
-                <span class="number">0</span>
+                <span class="number">{tasks.length}</span>
               </p>
             </div>
             <div class="stat-box">
               <p>In Progress:</p>
               <p class="stat-value">
                 <span class="stat-bar blue"></span>
-                <span class="number">0</span>
+                <span class="number">{activeTasks}</span>
               </p>
             </div>
             <div class="stat-box">
               <p>Open Tasks:</p>
               <p class="stat-value">
                 <span class="stat-bar orange"></span>
-                <span class="number">0</span>
+                <span class="number">{activeTasks}</span>
               </p>
             </div>
             <div class="stat-box">
               <p>Completed:</p>
               <p class="stat-value">
                 <span class="stat-bar green"></span>
-                <span class="number">0</span>
+                <span class="number">{completedTasks}</span>
               </p>
             </div>
           </div>

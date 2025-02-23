@@ -41,25 +41,6 @@ export const SocialLogos = [
   },
 ];
 
-export const NavUrls = [
-  {
-    name: "A",
-    link: "",
-  },
-  {
-    name: "B",
-    link: "",
-  },
-
-  {
-    name: "C",
-    link: "",
-  },
-  {
-    name: "D",
-    link: "",
-  },
-];
 export const MainContentStyle = styled.div`
   grid-area: main;
   background: #ecebde;
@@ -136,8 +117,15 @@ export const TaskProvider = ({ children }) => {
     setTasks([...tasks, task]);
   };
 
-  const activeTasks = useMemo(() => {
-    return tasks.reduce((acc, t) => (t.completed === "no" ? acc + 1 : acc), 0);
+  const { activeTasks, completedTasks } = useMemo(() => {
+    return tasks.reduce(
+      (acc, t) => {
+        if (t.completed === "no") acc.activeTasks += 1;
+        if (t.completed === "yes") acc.completedTasks += 1;
+        return acc;
+      },
+      { activeTasks: 0, completedTasks: 0 }
+    );
   }, [tasks]);
 
   return (
@@ -159,6 +147,7 @@ export const TaskProvider = ({ children }) => {
         TaskContainerStyle,
         CartStyle,
         activeTasks,
+        completedTasks,
       }}
     >
       {children}
@@ -230,14 +219,6 @@ const TaskFormStyle = styled.div`
           animation: ${fadeOut} 0.3s forwards;
         `}
 `;
-const TaskReducer = (state, action) => {
-  switch (action.type) {
-    case "add_task":
-      return addTask(action.payloads);
-    default:
-      throw new Error("Invalid Type Passed!");
-  }
-};
 
 export const TaskForm = ({ isVisible, onAnimationEnd, taskToEdit }) => {
   let {
