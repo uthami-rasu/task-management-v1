@@ -199,6 +199,7 @@ export const fadeOut = keyframes`
 // `;
 // Styled Component
 const TaskFormStyle = styled.div`
+  z-index: 3;
   position: absolute;
   background: #fff;
   top: 50%;
