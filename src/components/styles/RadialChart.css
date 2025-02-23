@@ -1,0 +1,96 @@
+/* Main Card Styling */
+.card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  max-width: 400px;
+  margin: auto;
+}
+
+/* Header Styling */
+.card-header {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.card-description {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Chart Styling */
+.card-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.chart-container {
+  width: 100%;
+  max-width: 250px;
+  display: flex;
+  justify-content: center;
+}
+
+.chart-total {
+  font-size: 1.5rem;
+  font-weight: bold;
+  fill: #333;
+}
+
+.chart-label {
+  font-size: 0.9rem;
+  fill: #777;
+}
+
+/* Footer Styling */
+.card-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.trend {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  color: #2ecc71;
+}
+
+.trend-icon {
+  width: 16px;
+  height: 16px;
+  margin-left: 4px;
+}
+
+.chart-footer-text {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* Responsive Design */
+@media (max-width: 500px) {
+  .card {
+    max-width: 90%;
+  }
+
+  .chart-container {
+    max-width: 200px;
+  }
+
+  .chart-total {
+    font-size: 1.3rem;
+  }
+}

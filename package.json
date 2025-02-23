@@ -11,7 +11,10 @@
     "styled-components": "6.1.15",
     "lucide-react": "0.475.0",
     "moment": "2.30.1",
-    "react-router-dom": "7.2.0"
+    "react-router-dom": "7.2.0",
+    "recharts":"^2.12.7"
+
+   
   },
   "devDependencies": {
     "@types/react": "^18.2.0",

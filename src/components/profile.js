@@ -2,6 +2,8 @@ import styled from "styled-components";
 import Logo from "../assets/logo.png";
 
 import { useTasks } from "./utils";
+
+import { RadialChart } from "./RatialChart";
 export const ProfileStyle = styled.div`
   grid-area: profile;
   display: grid;
@@ -107,7 +109,10 @@ function Profile() {
         </div>
       </ProfileAllTasks>
 
-      <ProfileAnalytics> completed tasks</ProfileAnalytics>
+      <ProfileAnalytics>
+        {" "}
+        <RadialChart />
+      </ProfileAnalytics>
       <ProfileSignOut> Sign Out</ProfileSignOut>
     </ProfileStyle>
   );
