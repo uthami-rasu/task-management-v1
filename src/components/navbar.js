@@ -43,7 +43,7 @@ export default function NavBar() {
     <>
       <NavbarStyle>
         <li className="nav-li">
-          <NavLink to="/" end>
+          <NavLink to="/home" end>
             <Home size={20} stroke="black" className="home-icon" />
           </NavLink>
         </li>

@@ -6,7 +6,9 @@ import MainContent from "./mainContent";
 import Profile from "./profile";
 import { Routes, Route } from "react-router-dom";
 import DynamicMainContent from "../pages/Pending";
-
+import { useUserContext } from "../context/usercontext";
+import Register from "../register/register";
+import VerifyEmail from "../register/verify_email";
 export const ContainerStyle = styled.div`
   height: 99vh;
   display: grid;
@@ -19,13 +21,17 @@ export const ContainerStyle = styled.div`
 `;
 
 export default function Container() {
+  let { loginStatus } = useUserContext();
   return (
     <ContainerStyle>
       <Header></Header>
       <NavBar></NavBar>
 
       <Routes>
-        <Route path="/" element={<MainContent />} />
+        <Route path="/" element={<Register />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
+
+        <Route path="/home" element={<MainContent />} />
         <Route
           path="/completed"
           element={<DynamicMainContent cType={"Completed"} />}
@@ -43,7 +49,7 @@ export default function Container() {
           element={<DynamicMainContent cType={"Overdue"} />}
         />
       </Routes>
-      <Profile></Profile>
+      {loginStatus && <Profile></Profile>}
     </ContainerStyle>
   );
 }
