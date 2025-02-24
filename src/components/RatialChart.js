@@ -1,29 +1,59 @@
 import React from "react";
 import { TrendingUp } from "lucide-react";
-import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
+import {
+  Tooltip,
+  Label,
+  PolarRadiusAxis,
+  RadialBar,
+  RadialBarChart,
+} from "recharts";
 import "./styles/RadialChart.css";
+import { ChartTooltip, ChartTooltipContent } from "./custom-tooltip";
 
+import { useTasks } from "./utils";
+import { act } from "react";
 const chartData = [{ month: "January", desktop: 1260, mobile: 570 }];
-
+const chartConfig = {
+  desktop: {
+    label: "Completed",
+    color: "#8BCE89",
+  },
+  mobile: {
+    label: "Pending",
+    color: "#EB4E31",
+  },
+};
 export function RadialChart() {
-  const totalVisitors = chartData[0].desktop + chartData[0].mobile;
+  const { tasks, completedTasks, activeTasks } = useTasks();
+  const tasksTotal = tasks.length;
+
+  const chartData = [
+    {
+      name: "Tasks",
+      pending: activeTasks ?? 0,
+      completed: completedTasks ?? 0,
+    },
+  ];
+  console.log(chartData);
 
   return (
     <div className="card">
       <div className="card-header">
-        <h2 className="card-title">Radial Chart - Stacked</h2>
-        <p className="card-description">January - June 2024</p>
+        <h2 className="card-title">Pending vs Completed Tasks</h2>
+        <p className="card-description">Task Completion Status</p>
       </div>
       <div className="card-content">
         <div className="chart-container">
           <RadialBarChart
-            width={250}
-            height={250}
+            width={200}
+            height={200}
             data={chartData}
             endAngle={180}
             innerRadius={80}
             outerRadius={130}
           >
+            <ChartTooltip content={<ChartTooltipContent hideLabel={true} />} />
+
             <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
               <Label
                 content={({ viewBox }) => {
@@ -35,14 +65,14 @@ export function RadialChart() {
                           y={viewBox.cy - 16}
                           className="chart-total"
                         >
-                          {totalVisitors.toLocaleString()}
+                          {tasksTotal.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy + 4}
                           className="chart-label"
                         >
-                          Visitors
+                          Tasks
                         </tspan>
                       </text>
                     );
@@ -52,27 +82,19 @@ export function RadialChart() {
               />
             </PolarRadiusAxis>
             <RadialBar
-              dataKey="desktop"
+              dataKey="completed"
               stackId="a"
-              cornerRadius={5}
-              fill="#4A90E2"
+              cornerRadius={2}
+              fill="#8BCE89"
             />
             <RadialBar
-              dataKey="mobile"
+              dataKey="pending"
               stackId="a"
-              cornerRadius={5}
-              fill="#50E3C2"
+              cornerRadius={2}
+              fill="#EB4E31"
             />
           </RadialBarChart>
         </div>
-      </div>
-      <div className="card-footer">
-        <div className="trend">
-          Trending up by 5.2% this month <TrendingUp className="trend-icon" />
-        </div>
-        <p className="chart-footer-text">
-          Showing total visitors for the last 6 months
-        </p>
       </div>
     </div>
   );

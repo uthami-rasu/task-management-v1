@@ -28,12 +28,17 @@ const ProfileAllTasks = styled.div`
   gap: 0.5rem;
 `;
 
-const ProfileAnalytics = styled.div`
-  background: navy;
-`;
+const ProfileAnalytics = styled.div``;
 
 const ProfileSignOut = styled.div`
-  background: red;
+  background: orangered;
+  width: 85%;
+  margin: auto;
+  color: #fff;
+  text-align: center;
+  border-radius: 2rem;
+  font-weight: 500;
+  padding: 0.2rem;
 `;
 
 const ImageTag = styled.img`

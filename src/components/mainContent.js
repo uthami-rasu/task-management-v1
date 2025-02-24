@@ -4,6 +4,7 @@ import { FilterBtns, TaskForm } from "./utils";
 import { Star, Edit, Trash2 } from "lucide-react";
 import { useTasks, fadeOut, timeAgo } from "./utils";
 import moment from "moment";
+import { useUserContext } from "../context/usercontext";
 
 // const FilterReducer = (state,action)=>{
 
@@ -34,6 +35,7 @@ function MainContent() {
     setActiveTasks,
   } = useTasks();
 
+  let { loading, setLoading } = useUserContext();
   const handleTaskBtn = () => {
     setIsFormVisible(!isFormVisible);
   };
@@ -75,13 +77,17 @@ function MainContent() {
     // console.log(tasks);
   };
   const processedTasks = useMemo(() => {
-    return tasks
+    setLoading(true);
+    const result = tasks
       .filter((task) => filters.type === "all" || task.status === filters.type)
       .map((task) => ({
         ...task,
         timeAgo: timeAgo(task.modified), // Compute only once per render cycle
       }));
+    setLoading(false);
+    return result;
   }, [tasks, filters.type]);
+
   return (
     <>
       <MainContentStyle>
@@ -115,7 +121,7 @@ function MainContent() {
         </div>
 
         <TaskContainerStyle id={"task-container"}>
-          {processedTasks &&
+          {!loading ? (
             processedTasks.map((task, idx) => {
               return (
                 <CartStyle key={task.taskid}>
@@ -145,7 +151,10 @@ function MainContent() {
                   </div>
                 </CartStyle>
               );
-            })}
+            })
+          ) : (
+            <p>Loading...</p>
+          )}
           <CartStyle border={"true"}>
             <button
               style={{

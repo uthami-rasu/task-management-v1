@@ -5,6 +5,7 @@ import { styled } from "styled-components";
 import "./styles/header.css";
 import logo from "../assets/logo.png";
 import { ButtonStyle, SocialLogos, useTasks } from "./utils";
+import { useUserContext } from "../context/usercontext";
 
 const HeaderStyle = styled.div`
   grid-area: header;
@@ -15,6 +16,14 @@ const HeaderStyle = styled.div`
 // core developement
 export default function Header() {
   let { isFormVisible, setIsFormVisible, activeTasks } = useTasks();
+
+  let { loginStatus } = useUserContext();
+
+  const handleHeaderBtn = () => {
+    if (loginStatus) {
+      setIsFormVisible(!isFormVisible);
+    }
+  };
   return (
     <HeaderStyle>
       <div className="logo">
@@ -23,13 +32,17 @@ export default function Header() {
       <div className="greet-middle">
         <div className="name-task">
           <h2>Welcome, Buddy!</h2>
-          <span>
-            you have <b style={{ color: "green" }}>{activeTasks}</b> active
-            tasks
-          </span>
+          {loginStatus && (
+            <span>
+              you have <b style={{ color: "green" }}>{activeTasks}</b> active
+              tasks
+            </span>
+          )}
+          {!loginStatus && <span>login or register to view your tasks</span>}
         </div>
-        <ButtonStyle onClick={() => setIsFormVisible(!isFormVisible)}>
-          Add new Task
+        <ButtonStyle onClick={handleHeaderBtn}>
+          {loginStatus && "Add new Task"}
+          {!loginStatus && "Login / Register"}
         </ButtonStyle>
       </div>
       <div className="social">
