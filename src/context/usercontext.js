@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { React, createContext, useContext } from "react";
 
+import { useSearchParams } from "react-router-dom";
 const UserContext = createContext();
 
 export function UserContextProvider({ children }) {
@@ -9,6 +10,8 @@ export function UserContextProvider({ children }) {
   const [isLoginFormVisible, setIsLoginFormVisible] = useState(true);
 
   const [loading, setLoading] = useState(false);
+
+  const [clientToken, setClientToken] = useState("");
 
   const toggleStatus = () => {
     setLoginStatus(!loginStatus);

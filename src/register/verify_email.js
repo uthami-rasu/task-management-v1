@@ -1,23 +1,55 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
+import { useUserContext } from "../context/usercontext";
+
+import { useSearchParams, useNavigate } from "react-router-dom";
 function VerifyEmail() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const BASE_ENDPOINT =
+    "https://laughing-space-guacamole-v6q7gw4x5j73xv5x-8001.app.github.dev";
+
+  const navigate = useNavigate();
+  const { clientToken, setClientToken, toggleStatus } = useUserContext();
+
+  const [searchParams] = useSearchParams();
+
   const [message, setMessage] = useState("");
 
-  const onSubmit = async (data) => {
-    const response = await fetch("https://your-api-url/verify-email/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+  useEffect(() => {
+    const urlToken = searchParams.get("token");
 
-    const result = await response.json();
-    setMessage(result.message);
+    if (urlToken) {
+      setClientToken(urlToken);
+    }
+  }, []);
+
+  const onSubmit = async (data) => {
+    if (!data) {
+      setMessage("Please enter valid token");
+    }
+
+    try {
+      const response = await fetch(BASE_ENDPOINT + "/api/auth/verify-token", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      setMessage(result.message);
+      toggleStatus();
+      navigate("/home");
+    } catch (err) {
+      console.error(err);
+    }
+
+    //console.log(data);
   };
 
   return (
@@ -29,6 +61,7 @@ function VerifyEmail() {
           placeholder="Enter OTP here"
           {...register("token", { required: "OTP is required" })}
           style={styles.input}
+          value={clientToken}
         />
         {errors.token && <p style={styles.error}>{errors.token.message}</p>}
 
@@ -57,7 +90,6 @@ const styles = {
     transform: "translate(-50%, -50%)",
     boxShadow: "0 4px 10px grey",
     borderRadius: "0.5rem",
-    
   },
   heading: { fontSize: "24px", marginBottom: "10px" },
   form: { display: "flex", flexDirection: "column", gap: "10px" },

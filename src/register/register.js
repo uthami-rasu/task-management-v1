@@ -11,6 +11,8 @@ function Register() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const BASE_ENDPOINT =
+    "https://laughing-space-guacamole-v6q7gw4x5j73xv5x-8001.app.github.dev";
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
@@ -20,15 +22,29 @@ function Register() {
   const onSubmit = async (data) => {
     setLoading(true);
     setMessage("you will redirect to verify email");
-    // const response = await fetch("https://your-api-url/register/", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(data),
-    // });
 
-    // const result = await response.json();
+    try {
+      fetch(BASE_ENDPOINT + "/api/v1/users", {
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err));
 
-    navigate("/verify-email");
+      const response = await fetch(BASE_ENDPOINT + "/api/v1/register-user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      // if (result.status_code)
+      // navigate("/verify-email");
+      console.log(result);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   if (!isLoginFormVisible) return null;
@@ -77,7 +93,7 @@ function Register() {
       {message && <p style={styles.success}>{message}</p>}
 
       <p style={styles.link}>
-        Already have an account?{" "}
+        Already have an account?
         <span
           onClick={() => navigate("/verify-email")}
           style={styles.clickable}
