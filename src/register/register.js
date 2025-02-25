@@ -5,53 +5,54 @@ import { transform } from "typescript";
 import { useUserContext } from "../context/usercontext";
 
 function Register() {
-  const { isLoginFormVisible, toggleStatus, setLoading } = useUserContext();
+  const {
+    isLoginFormVisible,
+    toggleStatus,
+    setLoading,
+    userName,
+    setUserName,
+    userCredentials,
+    setUserCredentials,
+  } = useUserContext();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const BASE_URL =
-    "https://laughing-space-guacamole-v6q7gw4x5j73xv5x-8000.app.github.dev";
-    
+  // https://laughing-space-guacamole-v6q7gw4x5j73xv5x-8000.app.github.dev/api/v1/users
+  const BASE_URL = "https://backend-fastapi-3qe5.onrender.com";
   const [showPassword, setShowPassword] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState({ hasError: false, content: "" });
   const navigate = useNavigate();
 
   const togglePassword = () => setShowPassword(!showPassword);
 
   const onSubmit = async (data) => {
     setLoading(true);
-    setMessage("you will redirect to verify email");
+    setMessage({ ...message, content: "Please wait.." });
 
     try {
-      // fetch("https://laughing-space-guacamole-v6q7gw4x5j73xv5x-8000.app.github.dev/api/v1/users", {
-      //   headers: { "Content-Type": "application/json" },
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => console.log(data))
-      //   .catch((err) => console.log(err));
-
-      const response = await fetch(
-        BASE_URL +"/api/v1/register-user", {
+      const response = await fetch(BASE_URL + "/api/v1/register-user", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials:"include",
+        credentials: "include",
         body: JSON.stringify(data),
       });
 
       const result = await response.json();
       console.log(result);
-      if (result){
-        setMessage(result.message);
-        setTimeout(() => {
-          navigate("/verify-email");
-        }, 2000);
-       
+      if (!response.ok) {
+        throw new Error(result?.detail || "Something went wrong");
       }
-    
+      setMessage({ hasError: false, content: result?.message });
+      setTimeout(() => {
+        setUserName(data?.username.trim());
+        setUserCredentials({ password: data?.password, email: data?.email });
+        navigate("/verify-email");
+      }, 1000);
     } catch (err) {
-      console.error(err);
+      setMessage({ hasError: true, content: err.message });
+      console.log(err.message);
     }
   };
 
@@ -98,7 +99,11 @@ function Register() {
         </button>
       </form>
 
-      {message && <p style={styles.success}>{message}</p>}
+      {message.content && (
+        <p style={message.hasError ? styles.error : styles.success}>
+          {message.content}
+        </p>
+      )}
 
       <p style={styles.link}>
         Already have an account?

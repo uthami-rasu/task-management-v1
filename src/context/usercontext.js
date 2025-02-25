@@ -13,6 +13,13 @@ export function UserContextProvider({ children }) {
 
   const [clientToken, setClientToken] = useState("");
 
+  const [userName,setUserName] = useState("Buddy!");
+  const [userCredentials,setUserCredentials] = useState({password:"",email:""});
+
+
+
+
+
   const toggleStatus = () => {
     setLoginStatus(!loginStatus);
     setIsLoginFormVisible(!isLoginFormVisible);
@@ -21,6 +28,8 @@ export function UserContextProvider({ children }) {
   return (
     <UserContext.Provider
       value={{
+        userName,setUserName,
+        userCredentials,setUserCredentials,
         loginStatus,
         setLoginStatus,
         isLoginFormVisible,
