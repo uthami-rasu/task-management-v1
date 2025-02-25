@@ -28,6 +28,8 @@ export function UserContextProvider({ children }) {
         toggleStatus,
         loading,
         setLoading,
+        clientToken,
+        setClientToken
       }}
     >
       {children}

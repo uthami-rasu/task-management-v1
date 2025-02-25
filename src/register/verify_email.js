@@ -22,29 +22,37 @@ function VerifyEmail() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const urlToken = searchParams.get("token");
-
+    const urlToken = searchParams.get("token") || "";
+    console.log(urlToken);
     if (urlToken) {
       setClientToken(urlToken);
     }
   }, []);
 
   const onSubmit = async (data) => {
-    if (!data) {
+    if (!data || !data.token) {
       setMessage("Please enter valid token");
+      return;
     }
 
     try {
-      const response = await fetch(BASE_ENDPOINT + "/api/auth/verify-token", {
-        method: "GET",
+      const response = await fetch(
+        "https://laughing-space-guacamole-v6q7gw4x5j73xv5x-8000.app.github.dev/api/auth/verify-token", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({token:data.token.trim()}),
+        mode:"cors"
       });
-
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
       const result = await response.json();
       setMessage(result.message);
-      toggleStatus();
-      navigate("/home");
+      
+      setTimeout(()=>{
+        navigate("/home");
+        toggleStatus();
+      },500);
     } catch (err) {
       console.error(err);
     }
@@ -61,7 +69,7 @@ function VerifyEmail() {
           placeholder="Enter OTP here"
           {...register("token", { required: "OTP is required" })}
           style={styles.input}
-          value={clientToken}
+          // value={clientToken}
         />
         {errors.token && <p style={styles.error}>{errors.token.message}</p>}
 

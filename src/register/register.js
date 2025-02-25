@@ -11,8 +11,9 @@ function Register() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const BASE_ENDPOINT =
-    "https://laughing-space-guacamole-v6q7gw4x5j73xv5x-8001.app.github.dev";
+  const BASE_URL =
+    "https://laughing-space-guacamole-v6q7gw4x5j73xv5x-8000.app.github.dev";
+    
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
@@ -24,24 +25,31 @@ function Register() {
     setMessage("you will redirect to verify email");
 
     try {
-      fetch(BASE_ENDPOINT + "/api/v1/users", {
-        headers: { "Content-Type": "application/json" },
-      })
-        .then((res) => res.json())
-        .then((data) => console.log(data))
-        .catch((err) => console.log(err));
+      // fetch("https://laughing-space-guacamole-v6q7gw4x5j73xv5x-8000.app.github.dev/api/v1/users", {
+      //   headers: { "Content-Type": "application/json" },
+      // })
+      //   .then((res) => res.json())
+      //   .then((data) => console.log(data))
+      //   .catch((err) => console.log(err));
 
-      const response = await fetch(BASE_ENDPOINT + "/api/v1/register-user", {
+      const response = await fetch(
+        BASE_URL +"/api/v1/register-user", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials:"include",
         body: JSON.stringify(data),
       });
 
       const result = await response.json();
-
-      // if (result.status_code)
-      // navigate("/verify-email");
       console.log(result);
+      if (result){
+        setMessage(result.message);
+        setTimeout(() => {
+          navigate("/verify-email");
+        }, 2000);
+       
+      }
+    
     } catch (err) {
       console.error(err);
     }
