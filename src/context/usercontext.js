@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { React, createContext, useContext } from "react";
 
+import { useSearchParams } from "react-router-dom";
 const UserContext = createContext();
 
 export function UserContextProvider({ children }) {
@@ -10,6 +11,15 @@ export function UserContextProvider({ children }) {
 
   const [loading, setLoading] = useState(false);
 
+  const [clientToken, setClientToken] = useState("");
+
+  const [userName,setUserName] = useState("Buddy!");
+  const [userCredentials,setUserCredentials] = useState({password:"",email:""});
+
+
+
+
+
   const toggleStatus = () => {
     setLoginStatus(!loginStatus);
     setIsLoginFormVisible(!isLoginFormVisible);
@@ -18,6 +28,8 @@ export function UserContextProvider({ children }) {
   return (
     <UserContext.Provider
       value={{
+        userName,setUserName,
+        userCredentials,setUserCredentials,
         loginStatus,
         setLoginStatus,
         isLoginFormVisible,
@@ -25,6 +37,8 @@ export function UserContextProvider({ children }) {
         toggleStatus,
         loading,
         setLoading,
+        clientToken,
+        setClientToken
       }}
     >
       {children}

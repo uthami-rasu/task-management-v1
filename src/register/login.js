@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { transform } from "typescript";
 import { useUserContext } from "../context/usercontext";
+import { useEffect } from "react";
 
-function Register() {
+function Login() {
   const {
     isLoginFormVisible,
     toggleStatus,
@@ -13,6 +14,8 @@ function Register() {
     setUserName,
     userCredentials,
     setUserCredentials,
+    setLoginStatus,
+    setIsLoginFormVisible,
   } = useUserContext();
   const {
     register,
@@ -25,6 +28,25 @@ function Register() {
   const [message, setMessage] = useState({ hasError: false, content: "" });
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setIsLoginFormVisible(true);
+    setLoginStatus(false);
+    fetch(BASE_URL + "/auth/me", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.ok) {
+          setLoginStatus(true);
+          setIsLoginFormVisible(false);
+          navigate("/home");
+        }
+        return res.json();
+      })
+      .then((data) => setUserName(data?.user?.email))
+      .catch((err) => console.log(err));
+  }, []);
   const togglePassword = () => setShowPassword(!showPassword);
 
   const onSubmit = async (data) => {
@@ -32,22 +54,23 @@ function Register() {
     setMessage({ ...message, content: "Please wait.." });
 
     try {
-      const response = await fetch(BASE_URL + "/api/v1/register-user", {
+      const response = await fetch(BASE_URL + "/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
+        credentials: "include",
       });
 
       const result = await response.json();
-      console.log(result);
+
       if (!response.ok) {
         throw new Error(result?.detail || "Something went wrong");
       }
       console.log(result);
       setMessage({ hasError: false, content: result?.message });
       setTimeout(() => {
-        setUserName(data?.username.trim());
-        navigate("/verify-email");
+        toggleStatus();
+        navigate("/home");
       }, 1000);
     } catch (err) {
       setMessage({ hasError: true, content: err.message });
@@ -58,18 +81,8 @@ function Register() {
   if (!isLoginFormVisible) return null;
   return (
     <div style={styles.container}>
-      <h2 style={styles.heading}>Register</h2>
+      <h2 style={styles.heading}>Login</h2>
       <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
-        <input
-          type="text"
-          placeholder="Username"
-          {...register("username", { required: "Username is required" })}
-          style={styles.input}
-        />
-        {errors.username && (
-          <p style={styles.error}>{errors.username.message}</p>
-        )}
-
         <input
           type="email"
           placeholder="Email"
@@ -85,16 +98,13 @@ function Register() {
             {...register("password", { required: "Password is required" })}
             style={styles.input}
           />
-          <span onClick={togglePassword} style={styles.toggle}>
-            {showPassword ? "🙈" : "👁️"}
-          </span>
         </div>
         {errors.password && (
           <p style={styles.error}>{errors.password.message}</p>
         )}
 
         <button type="submit" style={styles.button}>
-          Register
+          Login
         </button>
       </form>
 
@@ -105,9 +115,12 @@ function Register() {
       )}
 
       <p style={styles.link}>
-        Already have an account?
-        <span onClick={() => navigate("/")} style={styles.clickable}>
-          Login
+        Don't have an account?
+        <span
+          onClick={() => navigate("/auth/register")}
+          style={styles.clickable}
+        >
+          Register
         </span>
       </p>
     </div>
@@ -158,4 +171,4 @@ const styles = {
   success: { color: "green", fontSize: "14px" },
 };
 
-export default Register;
+export default Login;

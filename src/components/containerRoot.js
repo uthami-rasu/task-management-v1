@@ -9,6 +9,8 @@ import DynamicMainContent from "../pages/Pending";
 import { useUserContext } from "../context/usercontext";
 import Register from "../register/register";
 import VerifyEmail from "../register/verify_email";
+import Login from "../register/login";
+
 export const ContainerStyle = styled.div`
   height: 99vh;
   display: grid;
@@ -28,7 +30,8 @@ export default function Container() {
       <NavBar></NavBar>
 
       <Routes>
-        <Route path="/" element={<Register />} />
+        <Route path="/auth/register" element={<Register />} />
+        <Route path="/" element={<Login />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
 
         <Route path="/home" element={<MainContent />} />

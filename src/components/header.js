@@ -17,7 +17,7 @@ const HeaderStyle = styled.div`
 export default function Header() {
   let { isFormVisible, setIsFormVisible, activeTasks } = useTasks();
 
-  let { loginStatus } = useUserContext();
+  let { loginStatus, userName } = useUserContext();
 
   const handleHeaderBtn = () => {
     if (loginStatus) {
@@ -31,7 +31,7 @@ export default function Header() {
       </div>
       <div className="greet-middle">
         <div className="name-task">
-          <h2>Welcome, Buddy!</h2>
+          <h2>Welcome, {userName}!</h2>
           {loginStatus && (
             <span>
               you have <b style={{ color: "green" }}>{activeTasks}</b> active
