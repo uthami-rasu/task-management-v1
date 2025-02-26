@@ -34,7 +34,7 @@
 //       setMessage("Please enter a valid token");
 //       return;
 //     }
-  
+
 //     try {
 //       const response = await fetch(
 //         "https://backend-fastapi-3qe5.onrender.com/api/auth/verify-token",
@@ -45,10 +45,10 @@
 //           mode: "cors",
 //         }
 //       );
-  
+
 //       let result;
 //       try {
-//         result = await response.json(); 
+//         result = await response.json();
 //       } catch (err){
 //         throw new Error("Something went wrong, try again..");
 //       }
@@ -56,7 +56,7 @@
 //       if (!response.ok) {
 //         throw new Error(result?.detail || "Something went wrong");
 //       }
-  
+
 //       setMessage({hasError:false,content:result?.message || "Email verified successfully!"});
 //       setTimeout(() => {
 //         navigate("/home");
@@ -65,7 +65,7 @@
 //     } catch (err) {
 //       console.log(err,message);
 //       setMessage({hasError:true,content:err.message || "Something went wrong"}); // Store error message as a string
-     
+
 //     }
 //   };
 
@@ -131,7 +131,6 @@
 
 // export default VerifyEmail;
 
-
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useUserContext } from "../context/usercontext";
@@ -159,14 +158,14 @@ function VerifyEmail() {
   }, [searchParams, setValue]);
 
   const onSubmit = async (data) => {
-    if (!data || !data.token) {
+    if (!data || !data?.token.trim()) {
       setMessage({ hasError: true, content: "Please enter a valid token" });
       return;
     }
 
     try {
       const response = await fetch(
-        "https://backend-fastapi-3qe5.onrender.com/api/auth/verify-token",
+        "https://backend-fastapi-3qe5.onrender.com/auth/verify-email",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -174,26 +173,37 @@ function VerifyEmail() {
           mode: "cors",
         }
       );
-
+      // console.log("RESPONSE:", response);
       let result;
       try {
         result = await response.json();
+        console.log("DEV:", result);
       } catch (err) {
-        throw new Error("Something went wrong, try again..");
+        result = { message: "Something went wrong, try again.." };
       }
 
       if (!response.ok) {
         throw new Error(result?.detail || "Something went wrong");
       }
 
-      setMessage({ hasError: false, content: result?.message || "Email verified successfully!" });
+      setMessage({
+        hasError: false,
+        content: result?.message || "Email verified successfully!",
+      });
       setTimeout(() => {
-        navigate("/home");
-        toggleStatus();
+        setClientToken("");
+        navigate("/");
       }, 500);
     } catch (err) {
+      setClientToken("");
       console.log(err);
-      setMessage({ hasError: true, content: err.message || "Something went wrong" });
+      setMessage({
+        hasError: true,
+        content:
+          typeof err.message === "string"
+            ? err.message
+            : "Something went wrong",
+      });
     }
   };
 
@@ -219,7 +229,11 @@ function VerifyEmail() {
         </button>
       </form>
 
-      {message.content && <p style={message.hasError ? styles.error : styles.success}>{message.content}</p>}
+      {message.content && (
+        <p style={message.hasError ? styles.error : styles.success}>
+          {message.content}
+        </p>
+      )}
     </div>
   );
 }
