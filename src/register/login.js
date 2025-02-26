@@ -14,6 +14,8 @@ function Login() {
     setUserName,
     userCredentials,
     setUserCredentials,
+    setLoginStatus,
+    setIsLoginFormVisible,
   } = useUserContext();
   const {
     register,
@@ -27,6 +29,8 @@ function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setIsLoginFormVisible(true);
+    setLoginStatus(false);
     fetch(BASE_URL + "/auth/me", {
       method: "GET",
       credentials: "include",
@@ -34,11 +38,13 @@ function Login() {
       .then((res) => {
         console.log(res);
         if (res.ok) {
+          setLoginStatus(true);
+          setIsLoginFormVisible(false);
           navigate("/home");
         }
         return res.json();
       })
-      .then((data) => console.log("DATA:  ", data))
+      .then((data) => setUserName(data?.user?.email))
       .catch((err) => console.log(err));
   }, []);
   const togglePassword = () => setShowPassword(!showPassword);

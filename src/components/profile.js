@@ -4,6 +4,7 @@ import Logo from "../assets/logo.png";
 import { useTasks } from "./utils";
 
 import { RadialChart } from "./RatialChart";
+import { useUserContext } from "../context/usercontext";
 export const ProfileStyle = styled.div`
   grid-area: profile;
   display: grid;
@@ -64,6 +65,8 @@ function TaskMiniCard({ heading, taskcount }) {
 function Profile() {
   let { completedTasks, activeTasks, tasks } = useTasks();
 
+  let { userName } = useUserContext();
+
   return (
     <ProfileStyle>
       <ProfileNameStyle>
@@ -74,7 +77,7 @@ function Profile() {
           <div class="profile-text">
             <h1>
               <span class="hello-text">Hello,</span>
-              <span class="user-name">User Name</span>
+              <span class="user-name">{userName}</span>
             </h1>
           </div>
         </div>
