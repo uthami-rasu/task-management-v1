@@ -13,6 +13,7 @@ function Register() {
     setUserName,
     userCredentials,
     setUserCredentials,
+    navigate
   } = useUserContext();
   const {
     register,
@@ -23,7 +24,7 @@ function Register() {
   const BASE_URL = "https://backend-fastapi-3qe5.onrender.com";
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState({ hasError: false, content: "" });
-  const navigate = useNavigate();
+ 
 
   const togglePassword = () => setShowPassword(!showPassword);
 
@@ -106,7 +107,7 @@ function Register() {
 
       <p style={styles.link}>
         Already have an account?
-        <span onClick={() => navigate("/")} style={styles.clickable}>
+        <span onClick={() => navigate("/auth/login")} style={styles.clickable}>
           Login
         </span>
       </p>

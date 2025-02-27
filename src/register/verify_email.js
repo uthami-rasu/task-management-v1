@@ -59,7 +59,7 @@
 
 //       setMessage({hasError:false,content:result?.message || "Email verified successfully!"});
 //       setTimeout(() => {
-//         navigate("/home");
+//         navigate("/");
 //         toggleStatus();
 //       }, 500);
 //     } catch (err) {
@@ -134,7 +134,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useUserContext } from "../context/usercontext";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 function VerifyEmail() {
   const {
@@ -144,8 +144,8 @@ function VerifyEmail() {
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate();
-  const { clientToken, setClientToken, toggleStatus } = useUserContext();
+
+  const { clientToken, setClientToken, toggleStatus,navigate } = useUserContext();
   const [searchParams] = useSearchParams();
   const [message, setMessage] = useState({ hasError: false, content: "" });
 

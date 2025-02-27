@@ -17,11 +17,15 @@ const HeaderStyle = styled.div`
 export default function Header() {
   let { isFormVisible, setIsFormVisible, activeTasks } = useTasks();
 
-  let { loginStatus, userName } = useUserContext();
+  let { loginStatus, userName ,navigate} = useUserContext();
 
   const handleHeaderBtn = () => {
     if (loginStatus) {
-      setIsFormVisible(!isFormVisible);
+
+      setIsFormVisible(false);
+    }else{
+      setIsFormVisible(true);
+      navigate("/auth/login");
     }
   };
   return (

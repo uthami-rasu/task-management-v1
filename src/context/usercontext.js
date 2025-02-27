@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { React, createContext, useContext } from "react";
 
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams ,useNavigate,useLocation} from "react-router-dom";
 const UserContext = createContext();
 
 export function UserContextProvider({ children }) {
@@ -13,12 +13,13 @@ export function UserContextProvider({ children }) {
 
   const [clientToken, setClientToken] = useState("");
 
-  const [userName,setUserName] = useState("Buddy!");
-  const [userCredentials,setUserCredentials] = useState({password:"",email:""});
+  const [userName,setUserName] = useState("Buddy");
 
+  const navigate = useNavigate();
 
+  const BASE_URL = "https://backend-fastapi-3qe5.onrender.com";
 
-
+  const location = useLocation();
 
   const toggleStatus = () => {
     setLoginStatus(!loginStatus);
@@ -29,7 +30,6 @@ export function UserContextProvider({ children }) {
     <UserContext.Provider
       value={{
         userName,setUserName,
-        userCredentials,setUserCredentials,
         loginStatus,
         setLoginStatus,
         isLoginFormVisible,
@@ -38,7 +38,8 @@ export function UserContextProvider({ children }) {
         loading,
         setLoading,
         clientToken,
-        setClientToken
+        setClientToken,
+        navigate,BASE_URL,location
       }}
     >
       {children}

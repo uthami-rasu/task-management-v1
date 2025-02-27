@@ -359,3 +359,46 @@ export const timeAgo = (timestamp) => {
   if (diffInDays < 7) return `${diffInDays} days ago`;
   return createdTime.format("YYYY-MM-DD");
 };
+
+
+
+
+// Spinner Animation
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+// Styled Spinner Component
+const Spinner = styled.div`
+  width: 35px;
+  height: 35px;
+  border: 6px solid #ddd;
+  border-top: 6px solid white;
+  border-radius: 50%;
+  animation: ${spin} 1s linear infinite;
+`;
+
+// Styled Loading Container
+export const ProfileLoading = styled.div`
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  flex-direction: column;
+  color: #000;
+`;
+
+
+
+export  function LoadingProfile() {
+  return (
+    <ProfileLoading>
+      <Spinner />
+      <p>Loading..</p>
+    </ProfileLoading>
+  );
+}
