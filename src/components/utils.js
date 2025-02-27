@@ -20,6 +20,10 @@ export const ButtonStyle = styled.button`
   color: ${({ fc }) => (fc ? fc : "#fff")};
   border: ${({ brc }) => (brc ? brc : "none")};
   font-weight: 450;
+
+  @media (max-width: 480px) {
+    width: 30%;
+  }
 `;
 
 export function Button({ name }) {
@@ -52,6 +56,11 @@ export const MainContentStyle = styled.div`
   display: grid;
   grid-template-rows: 2.5rem 80vh;
   row-gap: 0.2rem;
+
+  @media (max-width: 550px) {
+    width: 100%;
+    padding: 3px 3px;
+  }
 `;
 
 export const TaskContainerStyle = styled.div`
@@ -76,6 +85,14 @@ export const TaskContainerStyle = styled.div`
   &::-webkit-scrollbar-track {
     background: #e3f2fd;
   }
+
+  @media (max-width: 550px) {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 15px;
+
+    margin-bottom: 40px;
+  }
 `;
 
 export const CartStyle = styled.div`
@@ -88,6 +105,11 @@ export const CartStyle = styled.div`
   oveflow: hidden;
   height: 12rem;
   border: ${({ border }) => (border ? "3px dotted grey" : "none")};
+
+  @media (max-width: 540px) {
+    width: 96%;
+    margin: 0 auto;
+  }
 `;
 export const FilterBtns = ["All", "Low", "Medium", "Hard"];
 
@@ -360,9 +382,6 @@ export const timeAgo = (timestamp) => {
   return createdTime.format("YYYY-MM-DD");
 };
 
-
-
-
 // Spinner Animation
 const spin = keyframes`
   0% { transform: rotate(0deg); }
@@ -392,9 +411,7 @@ export const ProfileLoading = styled.div`
   color: #000;
 `;
 
-
-
-export  function LoadingProfile() {
+export function LoadingProfile() {
   return (
     <ProfileLoading>
       <Spinner />

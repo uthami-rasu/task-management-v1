@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { React, createContext, useContext } from "react";
 
-import { useSearchParams ,useNavigate,useLocation} from "react-router-dom";
+import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 const UserContext = createContext();
 
 export function UserContextProvider({ children }) {
   const [loginStatus, setLoginStatus] = useState(false);
 
-  const [isLoginFormVisible, setIsLoginFormVisible] = useState(true);
+  const [isLoginFormVisible, setIsLoginFormVisible] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
   const [clientToken, setClientToken] = useState("");
 
-  const [userName,setUserName] = useState("Buddy");
+  const [userName, setUserName] = useState("Buddy");
 
   const navigate = useNavigate();
 
@@ -29,7 +29,8 @@ export function UserContextProvider({ children }) {
   return (
     <UserContext.Provider
       value={{
-        userName,setUserName,
+        userName,
+        setUserName,
         loginStatus,
         setLoginStatus,
         isLoginFormVisible,
@@ -39,7 +40,9 @@ export function UserContextProvider({ children }) {
         setLoading,
         clientToken,
         setClientToken,
-        navigate,BASE_URL,location
+        navigate,
+        BASE_URL,
+        location,
       }}
     >
       {children}

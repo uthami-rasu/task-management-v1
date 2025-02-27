@@ -10,21 +10,31 @@ import { useUserContext } from "../context/usercontext";
 const HeaderStyle = styled.div`
   grid-area: header;
   display: grid;
-  grid-template-columns: 40px 9fr 2fr;
+  grid-template-columns: 40px 1fr;
   column-gap: 0.7rem;
+
+  @media (max-width: 550px) {
+    background: red;
+    .name-task h2 {
+      font-size: 18px;
+      margin-top: 3px;
+    }
+    .name-task span {
+      font-size: 9px;
+    }
+  }
 `;
 // core developement
 export default function Header() {
   let { isFormVisible, setIsFormVisible, activeTasks } = useTasks();
 
-  let { loginStatus, userName ,navigate} = useUserContext();
+  let { loginStatus, userName, navigate } = useUserContext();
 
   const handleHeaderBtn = () => {
     if (loginStatus) {
-
-      setIsFormVisible(false);
-    }else{
       setIsFormVisible(true);
+    } else {
+      setIsFormVisible(false);
       navigate("/auth/login");
     }
   };
@@ -45,14 +55,9 @@ export default function Header() {
           {!loginStatus && <span>login or register to view your tasks</span>}
         </div>
         <ButtonStyle onClick={handleHeaderBtn}>
-          {loginStatus && "Add new Task"}
-          {!loginStatus && "Login / Register"}
+          {loginStatus && "Add Task"}
+          {!loginStatus && "Login"}
         </ButtonStyle>
-      </div>
-      <div className="social">
-        {SocialLogos.map((elem, idx) => {
-          return <img src={logo} height={30} width={30} />;
-        })}
       </div>
     </HeaderStyle>
   );

@@ -75,8 +75,9 @@ function MainContent() {
     };
 
     if (!loginStatus) {
-      fetchUser();
+      // fetchUser();//mobile
     }
+    setLoginStatus(true); //mobile
   }, []);
 
   const [isMounted, setIsMounted] = useState(false);

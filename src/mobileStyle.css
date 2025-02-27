@@ -1,0 +1,25 @@
+@media (max-width: 550px) {
+  /* Styles for mobile devices */
+
+  .inner-header {
+    background-color: red;
+  }
+
+  .inner-header h2 {
+    font-size: 15px;
+    margin-left: 10px;
+  }
+  .filters {
+    margin-right: 5px;
+  }
+  .inner-header .filters > button {
+    /* width: calc(100% / 4); */
+    border: none;
+    outline: none;
+    font-size: 0.5rem;
+    padding: 0.3rem;
+    margin: 0.2rem;
+    border-radius: 0.2rem;
+    cursor: pointer;
+  }
+}

@@ -153,6 +153,7 @@ const styles = {
     left: "50%",
     transform: "translate(-50%, -50%)",
     boxShadow: "0 4px 10px grey",
+    // display: "none", //mobile
   },
   heading: { fontSize: "24px", marginBottom: "10px" },
   form: { display: "flex", flexDirection: "column", gap: "10px" },

@@ -11,7 +11,6 @@
 
 // import {LoadingProfile} from "./utils";
 
-
 // export const ContainerStyle = styled.div`
 //   height: 99vh;
 //   display: grid;
@@ -31,7 +30,6 @@
 // export default function Container() {
 //   let { loginStatus,setLoading,setUserName,navigate } = useUserContext();
 
-
 //   useEffect(() => {
 //     const fetchUser = async () => {
 //       try {
@@ -44,8 +42,8 @@
 //         if(!res.ok){
 //           if (window.location.pathname !== "/auth/login") {
 //             navigate("/auth/login"); // ✅ Avoid unnecessary navigation
-//           } 
-    
+//           }
+
 //         }
 //         const data = await res.json();
 //         setUserName(data?.user?.email || "Nope");
@@ -130,7 +128,6 @@
 //   );
 // }
 
-
 import React, { Suspense, lazy, useEffect } from "react";
 import styled from "styled-components";
 import { Routes, Route, useNavigate } from "react-router-dom";
@@ -153,6 +150,12 @@ export const ContainerStyle = styled.div`
   grid-template-columns: 40px 9fr 2fr;
   grid-template-rows: 50px 1fr;
   gap: 0.5rem;
+
+  @media (max-width: 480px) {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 // Lazy-loaded components
@@ -162,12 +165,23 @@ const Profile = lazy(() => import("./profile"));
 
 export default function Container() {
   const navigate = useNavigate(); // ✅ Correctly calling useNavigate()
-  const { location,isLoginFormVisible,loginStatus, setLoginStatus, setLoading, setUserName,BASE_URL ,setIsLoginFormVisible} = useUserContext();
+  const {
+    location,
+    isLoginFormVisible,
+    loginStatus,
+    setLoginStatus,
+    setLoading,
+    setUserName,
+    BASE_URL,
+    setIsLoginFormVisible,
+  } = useUserContext();
 
   useEffect(() => {
-
-    if(["/auth/register","/auth/login","/verify-email"].includes(window.location.pathname)){
-  
+    if (
+      ["/auth/register", "/auth/login", "/verify-email"].includes(
+        window.location.pathname
+      )
+    ) {
       // navigate(window.location.pathname);
       return;
     }
@@ -186,15 +200,14 @@ export default function Container() {
         if (res.ok) {
           setLoginStatus(true);
           if (window.location.pathname !== "/") {
-            navigate(window.location.pathname); 
+            navigate(window.location.pathname);
           }
         } else {
           setLoginStatus(false);
           setIsLoginFormVisible(true);
-          if (window.location.pathname !== "/auth/login" ) {
+          if (window.location.pathname !== "/auth/login") {
             navigate("/auth/login");
           }
-          
         }
       } catch (err) {
         console.error("Error fetching user:", err);
@@ -204,9 +217,10 @@ export default function Container() {
     };
 
     if (!loginStatus) {
-      fetchUser();
+      //fetchUser(); //mobile
     }
-  }, [loginStatus,navigate,location.pathname]); // ✅ Corrected dependencies
+    setLoginStatus(true);
+  }, [loginStatus, navigate, location.pathname]); // ✅ Corrected dependencies
 
   return (
     <ContainerStyle>
