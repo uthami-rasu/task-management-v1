@@ -77,6 +77,26 @@ export const NavbarStyle = styled.div`
       color: #000;
       margin: auto;
     }
+
+    .nav-li:has(.active .home-icon) {
+      border-bottom: 2px solid blue;
+    }
+
+    .nav-li:has(.active .completed-icon) {
+      border-bottom: 2px solid #22c55e;
+    }
+
+    .nav-li:has(.active .pending-icon) {
+      border-bottom: 2px solid #3b82f6;
+    }
+
+    .nav-li:has(.active .starred-icon) {
+      border-bottom: 2px solid #f59e0b;
+    }
+
+    .nav-li:has(.active .overdue-icon) {
+      border-bottom: 2px solid #ef4444;
+    }
   }
 `;
 
@@ -84,7 +104,7 @@ export default function NavBar() {
   return (
     <>
       <NavbarStyle>
-        <li className="nav-li" style={{ display: "none" }}>
+        <li className="nav-li mobile-nav-li">
           <button className="no-btn-style">
             <Close />
           </button>

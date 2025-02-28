@@ -28,6 +28,11 @@
     align-items: center;
     gap: 7px;
   }
+  .mobile-nav-li {
+    display: flex;
+    border-bottom: none !important;
+    justify-content: flex-end;
+  }
 }
 
 /* .no-btn-style {
@@ -36,6 +41,10 @@
 
 @media (min-width: 550px) {
   .no-btn-style {
+    display: none;
+  }
+
+  .mobile-nav-li {
     display: none;
   }
 }
