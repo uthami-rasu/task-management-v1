@@ -8,6 +8,7 @@ import {
   Hourglass,
   Star,
   AlertCircle,
+  X as Close,
 } from "lucide-react";
 
 import Test from "../pages/Pending";
@@ -36,29 +37,34 @@ export const NavbarStyle = styled.div`
     stroke: #ef4444;
   } /* Red */
 
-  @media (max-width: 480px) {
+  @media (max-width: 550px) {
     position: absolute;
-    top: 20px;
-    left: -250px;
+    top: 0px;
+    right: 0px;
     width: 15rem;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    background: red;
     height: 100%;
     padding: 10px;
-    border-radius: 0.5rem;
+    border-radius: 0.5rem 0;
+
+    // blur effect
+    background: rgba(255, 182, 193, 0.2); /* Light pink with transparency */
+    backdrop-filter: blur(10px); /* Blurs everything behind */
     .nav-li {
       display: flex;
       align-items: center;
       gap: 0px; /* Space between icon and text */
-      padding: 8px 0;
-      width: 90%;
+      padding: 4px 0;
+      width: 99%;
+      border-bottom: 1px solid green;
+      background: transparent;
     }
     .nav-li a {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 5px;
       color: white;
       font-size: 16px;
       text-decoration: none;
@@ -68,7 +74,7 @@ export const NavbarStyle = styled.div`
       display: inline-block;
       font-size: 17px;
       font-weight: 500;
-      color: white;
+      color: #000;
       margin: auto;
     }
   }
@@ -78,6 +84,11 @@ export default function NavBar() {
   return (
     <>
       <NavbarStyle>
+        <li className="nav-li" style={{ display: "none" }}>
+          <button className="no-btn-style">
+            <Close />
+          </button>
+        </li>
         <li className="nav-li">
           <NavLink to="/" data-label="Home">
             <Home size={20} stroke="black" className="home-icon" />

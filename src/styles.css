@@ -146,11 +146,13 @@ li {
   justify-content: space-between;
   align-items: center;
 }
-.grps button {
+.grps button,
+.no-btn-style {
   background: none;
   border: none;
   cursor: pointer;
 }
+
 .frm-grp label {
   display: block;
   width: 100%;

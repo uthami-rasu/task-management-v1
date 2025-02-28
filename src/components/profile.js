@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Logo from "../assets/logo.png";
 
-import { useTasks,LoadingProfile } from "./utils";
+import { useTasks, LoadingProfile } from "./utils";
 
 import { RadialChart } from "./RatialChart";
 import { useUserContext } from "../context/usercontext";
@@ -12,6 +12,10 @@ export const ProfileStyle = styled.div`
   height: 80vh;
   grid-template-rows: 4rem 28vh 38vh 3rem;
   row-gap: 0.5rem;
+
+  @media (max-width: 550px) {
+    display: none;
+  }
 `;
 
 const ProfileNameStyle = styled.div`
@@ -41,7 +45,7 @@ const ProfileSignOut = styled.button`
   border-radius: 2rem;
   font-weight: 500;
   padding: 0.2rem;
-  cursor:pointer;
+  cursor: pointer;
 `;
 
 const ImageTag = styled.img`
@@ -50,19 +54,6 @@ const ImageTag = styled.img`
   background: red;
 `;
 
-function TaskMiniCard({ heading, taskcount }) {
-  return (
-    <>
-      <div className="grp-t">
-        <p>{heading}:</p>
-        <div className="grp-t1">
-          <div className="bar"></div>
-          <p>{taskcount}</p>
-        </div>
-      </div>
-    </>
-  );
-}
 const LoadingStyle = styled.div`
   width: auto;
   height: auto;
@@ -71,34 +62,29 @@ const LoadingStyle = styled.div`
   align-items: center;
 `;
 
-
-
-
 function Profile() {
   let { completedTasks, activeTasks, tasks } = useTasks();
 
-  let { userName, loginStatus, loading ,BASE_URL,setLoginStatus,navigate} = useUserContext();
+  let { userName, loginStatus, loading, BASE_URL, setLoginStatus, navigate } =
+    useUserContext();
 
-  const deleteCookies = async ()=>{
-
-    const res = await fetch(BASE_URL+"/auth/logout",{
-      method:"POST",
-      credentials:"include"
+  const deleteCookies = async () => {
+    const res = await fetch(BASE_URL + "/auth/logout", {
+      method: "POST",
+      credentials: "include",
     });
-   
-    if(res.ok){
+
+    if (res.ok) {
       const result = await res.json();
 
       alert(result.message);
     }
     setLoginStatus(false);
-    navigate('/auth/login');
-}
-
+    navigate("/auth/login");
+  };
 
   return (
     <>
-
       {!loading && loginStatus ? (
         <ProfileStyle>
           <ProfileNameStyle>
@@ -155,10 +141,14 @@ function Profile() {
             <RadialChart />
           </ProfileAnalytics>
 
-          <ProfileSignOut onClick={deleteCookies}> {loginStatus ? "Logout" : "Login"}</ProfileSignOut>
+          <ProfileSignOut onClick={deleteCookies}>
+            {" "}
+            {loginStatus ? "Logout" : "Login"}
+          </ProfileSignOut>
         </ProfileStyle>
-      ) : <LoadingProfile/>}
-
+      ) : (
+        <LoadingProfile />
+      )}
     </>
   );
 }

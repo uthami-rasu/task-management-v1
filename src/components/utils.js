@@ -20,9 +20,11 @@ export const ButtonStyle = styled.button`
   color: ${({ fc }) => (fc ? fc : "#fff")};
   border: ${({ brc }) => (brc ? brc : "none")};
   font-weight: 450;
-
-  @media (max-width: 480px) {
-    width: 30%;
+  margin-right: 2rem;
+  cursor: pointer;
+  @media (max-width: 550px) {
+    width: 20%;
+    display: none; //mobile
   }
 `;
 
@@ -60,6 +62,7 @@ export const MainContentStyle = styled.div`
   @media (max-width: 550px) {
     width: 100%;
     padding: 3px 3px;
+    height: 95vh;
   }
 `;
 
@@ -89,9 +92,10 @@ export const TaskContainerStyle = styled.div`
   @media (max-width: 550px) {
     display: grid;
     grid-template-columns: 1fr;
+    grid-template-rows: auto;
     row-gap: 15px;
-
-    margin-bottom: 40px;
+    height: 100%;
+    margin-bottom: 10px;
   }
 `;
 

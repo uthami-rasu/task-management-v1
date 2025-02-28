@@ -151,10 +151,11 @@ export const ContainerStyle = styled.div`
   grid-template-rows: 50px 1fr;
   gap: 0.5rem;
 
-  @media (max-width: 480px) {
+  @media (max-width: 550px) {
     position: relative;
     display: flex;
     flex-direction: column;
+    gap: 0px;
   }
 `;
 

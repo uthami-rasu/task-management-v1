@@ -4,17 +4,16 @@
 import { styled } from "styled-components";
 import "./styles/header.css";
 import logo from "../assets/logo.png";
-import { ButtonStyle, SocialLogos, useTasks } from "./utils";
+import { ButtonStyle, useTasks } from "./utils";
 import { useUserContext } from "../context/usercontext";
-
+import { Menu, SquarePlus } from "lucide-react";
 const HeaderStyle = styled.div`
   grid-area: header;
   display: grid;
   grid-template-columns: 40px 1fr;
   column-gap: 0.7rem;
-
   @media (max-width: 550px) {
-    background: red;
+    height: 50px;
     .name-task h2 {
       font-size: 18px;
       margin-top: 3px;
@@ -58,6 +57,15 @@ export default function Header() {
           {loginStatus && "Add Task"}
           {!loginStatus && "Login"}
         </ButtonStyle>
+
+        {loginStatus && (
+          <button className="no-btn-style">
+            <SquarePlus />
+          </button>
+        )}
+        <button className="no-btn-style">
+          <Menu />
+        </button>
       </div>
     </HeaderStyle>
   );
