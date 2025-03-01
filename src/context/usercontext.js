@@ -29,18 +29,28 @@ export function UserContextProvider({ children }) {
   const [toggleMenu, setToggleMenu] = useState(false);
 
   const deleteCookies = async () => {
-    const res = await fetch(BASE_URL + "/auth/logout", {
-      method: "POST",
-      credentials: "include",
-    });
 
-    if (res.ok) {
-      const result = await res.json();
-
-      alert(result.message);
+    try{
+      const res = await fetch(BASE_URL + "/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      if (res.ok) {
+        const result = await res.json();
+        localStorage.removeItem("username");
+        localStorage.removeItem("loginStatus");
+        alert(result.message);
+        setLoginStatus(false);
+      navigate("/auth/login");
+      }
+      
     }
-    setLoginStatus(false);
-    navigate("/auth/login");
+    catch(err){
+      console.log(err);
+    }
+   
+
+  
   };
 
   return (

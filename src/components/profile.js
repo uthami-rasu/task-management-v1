@@ -20,6 +20,10 @@ export const ProfileStyle = styled.div`
     height: 90%;
     width: 96%;
     margin: auto;
+    position: absolute;
+    top:5%;
+    display:none;
+    
   }
 `;
 
@@ -66,6 +70,8 @@ export const ProfileSignOut = styled.button`
   font-weight: 500;
   padding: 0.2rem;
   cursor: pointer;
+
+  z-index:10;
 `;
 
 const ImageTag = styled.img`
@@ -98,7 +104,7 @@ function Profile() {
   return (
     <>
       {!loading && loginStatus ? (
-        <ProfileStyle>
+        <ProfileStyle className="profile-container">
           <ProfileNameStyle>
             <div className="profile-card">
               <div className="profile-image">

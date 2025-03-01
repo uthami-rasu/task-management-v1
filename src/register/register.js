@@ -13,7 +13,8 @@ function Register() {
     setUserName,
     userCredentials,
     setUserCredentials,
-    navigate
+    navigate,
+    BASE_URL
   } = useUserContext();
   const {
     register,
@@ -21,7 +22,7 @@ function Register() {
     formState: { errors },
   } = useForm();
   // https://laughing-space-guacamole-v6q7gw4x5j73xv5x-8000.app.github.dev/api/v1/users
-  const BASE_URL = "https://backend-fastapi-3qe5.onrender.com";
+
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState({ hasError: false, content: "" });
  
@@ -56,7 +57,7 @@ function Register() {
     }
   };
 
-  if (!isLoginFormVisible) return null;
+  
   return (
     <div style={styles.container}>
       <h2 style={styles.heading}>Register</h2>

@@ -31,6 +31,7 @@ function Login() {
   const [message, setMessage] = useState({ hasError: false, content: "" });
 
   useEffect(() => {
+    console.log("LS",loginStatus);
     const fetchUser = async () => {
       try {
         setLoading(true);
@@ -49,6 +50,7 @@ function Login() {
         }
         setLoginStatus(false);
       } catch (err) {
+        setLoginStatus(false);
         console.error("Error fetching user:", err);
       } finally {
         setLoading(false);
@@ -63,6 +65,7 @@ function Login() {
   const togglePassword = () => setShowPassword(!showPassword);
 
   const onSubmit = async (data) => {
+    console.log("submit");
     setLoading(true);
     setMessage({ ...message, content: "Please wait.." });
 
@@ -75,13 +78,23 @@ function Login() {
       });
 
       const result = await response.json();
-
+      console.log(response);
       if (!response.ok) {
         throw new Error(result?.detail || "Something went wrong");
       }
+      if(response.status === 202){
+        setMessage({ hasError: false, content: result?.message });
+        setTimeout(() => {
+          navigate("/verify-email");
+        }, 1000);
+        return;
+      }
       console.log(result);
       setMessage({ hasError: false, content: result?.message });
+      setUserName(result?.user);
       setTimeout(() => {
+        localStorage.setItem("username",result?.user);
+        localStorage.setItem("loginStatus",true);
         toggleStatus();
         navigate("/");
       }, 1000);

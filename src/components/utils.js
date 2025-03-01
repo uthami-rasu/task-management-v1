@@ -54,22 +54,20 @@ export const MainContentStyle = styled.div`
   border-radius: 0.3rem;
   // border: 1px solid #000;
   box-shadow: 0 0 1px #000;
-
   display: grid;
   grid-template-rows: 2.5rem 80vh;
   row-gap: 0.2rem;
-
   @media (max-width: 550px) {
     width: 100%;
     padding: 3px 3px;
-    height: 95vh;
+    height: 100dvh;
+    padding-bottom: 20px;
   }
 `;
 
 export const TaskContainerStyle = styled.div`
   padding: 0.5rem;
   display: grid;
-
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, auto);
   gap: 1rem;
@@ -95,7 +93,8 @@ export const TaskContainerStyle = styled.div`
     grid-template-rows: auto;
     row-gap: 15px;
     height: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 40px;
+    overflow-y: scroll !important;
   }
 `;
 
@@ -225,7 +224,7 @@ export const fadeOut = keyframes`
 // `;
 // Styled Component
 const TaskFormStyle = styled.div`
-  z-index: 3;
+ 
   position: absolute;
   background: #e8f9ff;
   backdrop-filter: blur(15px); /* Blurs everything behind */
@@ -239,6 +238,7 @@ const TaskFormStyle = styled.div`
   transition: opacity 0.3s ease, transform 0.3s ease;
   border: 0.5px solid #bbb;
   visibility: ${({ isVisible }) => (isVisible ? "visible" : "hidden")};
+  z-index: 8;
   ${({ isVisible }) =>
     isVisible
       ? css`

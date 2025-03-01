@@ -196,7 +196,7 @@ function MainContent() {
             <p>Loading...</p>
           )}
           {!loading && loginStatus && (
-            <CartStyle border={"true"}>
+            <CartStyle border={"true"} className="last-card">
               <button
                 style={{
                   textAlign: "center",

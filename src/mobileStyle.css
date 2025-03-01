@@ -118,8 +118,26 @@
   }
   .mobile-pc {
     height: 45px;
-    width: 96%;
+    width: 98%;
     margin: auto;
+  }
+  .mobile-logout {
+    margin-top: auto;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .last-card {
+    margin-bottom: 20px !important;
+    /* background: green !important; */
+  }
+
+  .analytics-active .profile-container{
+    display:flex;
   }
 }
 

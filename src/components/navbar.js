@@ -52,14 +52,14 @@ export const NavbarStyle = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    height: 100%;
+    height: 100dvh !important;
     padding: 10px;
     border-radius: 0.5rem 0;
 
     // blur effect
     background: rgba(255, 182, 193, 0.2); /* Light pink with transparency */
     backdrop-filter: blur(10px); /* Blurs everything behind */
-
+    z-index: 9;
     transition: 0.5s ease-in-out;
     .nav-li {
       display: flex;
@@ -109,6 +109,10 @@ export const NavbarStyle = styled.div`
     .nav-li:has(.active .analytics-icon) {
       border-bottom: 2px solid #1d0576;
     }
+    .nav-li:has(.active .analytics-icon)  .profile-container{
+      display:flex;
+    }
+    
   }
 `;
 
@@ -118,6 +122,7 @@ export default function NavBar() {
     setToggleMenu,
     location,
     deleteCookies: logout,
+    loginStatus
   } = useUserContext();
 
   useEffect(() => {
@@ -170,7 +175,7 @@ export default function NavBar() {
           </NavLink>
         </li>
 
-        <li className="nav-li  mobile-nav-li">
+        <li className="nav-li  mobile-nav-li mobile-logout">
           <ProfileSignOut onClick={logout} className="mobile-pc">
             Logout
           </ProfileSignOut>

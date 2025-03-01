@@ -31,6 +31,7 @@ export default function Header() {
     useUserContext();
 
   const handleHeaderBtn = () => {
+    console.log(isFormVisible,'isfv');
     if (loginStatus) {
       setIsFormVisible(true);
     } else {
@@ -68,9 +69,9 @@ export default function Header() {
             <SquarePlus />
           </button>
         )}
-        <button className="no-btn-style" onClick={handleToggleMenu}>
+        {loginStatus && <button className="no-btn-style" onClick={handleToggleMenu}>
           <Menu />
-        </button>
+        </button>}
       </div>
     </HeaderStyle>
   );
