@@ -27,7 +27,8 @@ const HeaderStyle = styled.div`
 export default function Header() {
   let { isFormVisible, setIsFormVisible, activeTasks } = useTasks();
 
-  let { loginStatus, userName, navigate } = useUserContext();
+  let { loginStatus, userName, navigate, toggleMenu, setToggleMenu } =
+    useUserContext();
 
   const handleHeaderBtn = () => {
     if (loginStatus) {
@@ -36,6 +37,10 @@ export default function Header() {
       setIsFormVisible(false);
       navigate("/auth/login");
     }
+  };
+
+  const handleToggleMenu = () => {
+    setToggleMenu((prev) => !prev);
   };
   return (
     <HeaderStyle>
@@ -59,11 +64,11 @@ export default function Header() {
         </ButtonStyle>
 
         {loginStatus && (
-          <button className="no-btn-style">
+          <button className="no-btn-style" onClick={handleHeaderBtn}>
             <SquarePlus />
           </button>
         )}
-        <button className="no-btn-style">
+        <button className="no-btn-style" onClick={handleToggleMenu}>
           <Menu />
         </button>
       </div>

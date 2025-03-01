@@ -14,7 +14,12 @@ export const ProfileStyle = styled.div`
   row-gap: 0.5rem;
 
   @media (max-width: 550px) {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    // background: red;
+    height: 90%;
+    width: 96%;
+    margin: auto;
   }
 `;
 
@@ -23,6 +28,11 @@ const ProfileNameStyle = styled.div`
   justify-content: space-around;
   align-items: center;
   overflow: hidden;
+
+  @media (max-width: 550px) {
+    width: 100%;
+    justify-content: flex-start;
+  }
 `;
 
 const ProfileAllTasks = styled.div`
@@ -31,12 +41,22 @@ const ProfileAllTasks = styled.div`
   grid-template-columns: 1fr 1fr 1;
   grid-template-rows: 1fr 1fr;
   padding: 0.5rem;
-  gap: 0.5rem;
+  @media (max-width: 550px) {
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+  }
 `;
 
-const ProfileAnalytics = styled.div``;
+const ProfileAnalytics = styled.div`
+  width: 96%;
+  @media (max-width: 550px) {
+    width: 96%;
+    margin: auto;
+  }
+`;
 
-const ProfileSignOut = styled.button`
+export const ProfileSignOut = styled.button`
   background: orangered;
   width: 85%;
   margin: auto;
@@ -65,23 +85,15 @@ const LoadingStyle = styled.div`
 function Profile() {
   let { completedTasks, activeTasks, tasks } = useTasks();
 
-  let { userName, loginStatus, loading, BASE_URL, setLoginStatus, navigate } =
-    useUserContext();
-
-  const deleteCookies = async () => {
-    const res = await fetch(BASE_URL + "/auth/logout", {
-      method: "POST",
-      credentials: "include",
-    });
-
-    if (res.ok) {
-      const result = await res.json();
-
-      alert(result.message);
-    }
-    setLoginStatus(false);
-    navigate("/auth/login");
-  };
+  let {
+    userName,
+    loginStatus,
+    loading,
+    BASE_URL,
+    setLoginStatus,
+    navigate,
+    deleteCookies: logout,
+  } = useUserContext();
 
   return (
     <>
@@ -105,28 +117,28 @@ function Profile() {
           <ProfileAllTasks>
             <div className="stats-container">
               <div className="stats-grid">
-                <div className="stat-box">
+                <div className="stat-box box-1">
                   <p>Total Tasks:</p>
                   <p className="stat-value">
                     <span className="stat-bar purple"></span>
                     <span className="number">{tasks.length}</span>
                   </p>
                 </div>
-                <div className="stat-box">
+                <div className="stat-box box-2">
                   <p>In Progress:</p>
                   <p className="stat-value">
                     <span className="stat-bar blue"></span>
                     <span className="number">{activeTasks}</span>
                   </p>
                 </div>
-                <div className="stat-box">
+                <div className="stat-box box-3">
                   <p>Open Tasks:</p>
                   <p className="stat-value">
                     <span className="stat-bar orange"></span>
                     <span className="number">{activeTasks}</span>
                   </p>
                 </div>
-                <div className="stat-box">
+                <div className="stat-box box-4">
                   <p>Completed:</p>
                   <p className="stat-value">
                     <span className="stat-bar green"></span>
@@ -141,9 +153,8 @@ function Profile() {
             <RadialChart />
           </ProfileAnalytics>
 
-          <ProfileSignOut onClick={deleteCookies}>
-            {" "}
-            {loginStatus ? "Logout" : "Login"}
+          <ProfileSignOut onClick={logout} className="logout-pc">
+            Logout
           </ProfileSignOut>
         </ProfileStyle>
       ) : (

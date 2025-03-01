@@ -279,7 +279,7 @@ export default function Container() {
       {/* Lazy-load Profile if loginStatus is true */}
       {loginStatus && (
         <Suspense fallback={<LoadingProfile />}>
-          <Profile />
+          <Profile className="pc-profile" />
         </Suspense>
       )}
     </ContainerStyle>

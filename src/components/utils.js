@@ -23,8 +23,8 @@ export const ButtonStyle = styled.button`
   margin-right: 2rem;
   cursor: pointer;
   @media (max-width: 550px) {
-    width: 20%;
-    display: none; //mobile
+    width: 25%;
+    display: ${({ isWant }) => (isWant ? "block" : "none")}; //mobile
   }
 `;
 
@@ -227,7 +227,8 @@ export const fadeOut = keyframes`
 const TaskFormStyle = styled.div`
   z-index: 3;
   position: absolute;
-  background: #fff;
+  background: #e8f9ff;
+  backdrop-filter: blur(15px); /* Blurs everything behind */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -236,6 +237,7 @@ const TaskFormStyle = styled.div`
   border-radius: 0.4rem;
   padding: 0.5rem;
   transition: opacity 0.3s ease, transform 0.3s ease;
+  border: 0.5px solid #bbb;
   visibility: ${({ isVisible }) => (isVisible ? "visible" : "hidden")};
   ${({ isVisible }) =>
     isVisible
@@ -362,8 +364,9 @@ export const TaskForm = ({ isVisible, onAnimationEnd, taskToEdit }) => {
             style={{ textAlign: "center", marginTop: "0.3rem" }}
             bg={isEditing ? "#3674B5" : "#16C47F"}
             w={"100%"}
+            isWant={true}
           >
-            {isEditing ? "Update Task" : "Create Task"}
+            {isEditing ? "Update" : "Create"}
           </ButtonStyle>
         </div>
       </form>

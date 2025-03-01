@@ -26,6 +26,23 @@ export function UserContextProvider({ children }) {
     setIsLoginFormVisible(!isLoginFormVisible);
   };
 
+  const [toggleMenu, setToggleMenu] = useState(false);
+
+  const deleteCookies = async () => {
+    const res = await fetch(BASE_URL + "/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+
+    if (res.ok) {
+      const result = await res.json();
+
+      alert(result.message);
+    }
+    setLoginStatus(false);
+    navigate("/auth/login");
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -43,6 +60,9 @@ export function UserContextProvider({ children }) {
         navigate,
         BASE_URL,
         location,
+        toggleMenu,
+        setToggleMenu,
+        deleteCookies,
       }}
     >
       {children}

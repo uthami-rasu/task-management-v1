@@ -9,9 +9,12 @@ import {
   Star,
   AlertCircle,
   X as Close,
+  ChartNoAxesCombined,
 } from "lucide-react";
-
+import { ProfileSignOut } from "./profile";
 import Test from "../pages/Pending";
+import { useUserContext } from "../context/usercontext";
+import { useEffect } from "react";
 export const NavbarStyle = styled.div`
   grid-area: nav;
   display: flex;
@@ -37,10 +40,14 @@ export const NavbarStyle = styled.div`
     stroke: #ef4444;
   } /* Red */
 
+  .nav-li a.active .analytics-icon {
+    stroke: #1d0576;
+  }
+
   @media (max-width: 550px) {
     position: absolute;
     top: 0px;
-    right: 0px;
+    right: ${({ right }) => (right === 0 ? right + "px" : "-300px")};
     width: 15rem;
     display: flex;
     justify-content: flex-start;
@@ -52,6 +59,8 @@ export const NavbarStyle = styled.div`
     // blur effect
     background: rgba(255, 182, 193, 0.2); /* Light pink with transparency */
     backdrop-filter: blur(10px); /* Blurs everything behind */
+
+    transition: 0.5s ease-in-out;
     .nav-li {
       display: flex;
       align-items: center;
@@ -97,15 +106,31 @@ export const NavbarStyle = styled.div`
     .nav-li:has(.active .overdue-icon) {
       border-bottom: 2px solid #ef4444;
     }
+    .nav-li:has(.active .analytics-icon) {
+      border-bottom: 2px solid #1d0576;
+    }
   }
 `;
 
 export default function NavBar() {
+  let {
+    toggleMenu,
+    setToggleMenu,
+    location,
+    deleteCookies: logout,
+  } = useUserContext();
+
+  useEffect(() => {
+    setToggleMenu(false);
+  }, [location.pathname]);
   return (
     <>
-      <NavbarStyle>
+      <NavbarStyle right={toggleMenu ? 0 : 1}>
         <li className="nav-li mobile-nav-li">
-          <button className="no-btn-style">
+          <button
+            className="no-btn-style"
+            onClick={() => setToggleMenu(!toggleMenu)}
+          >
             <Close />
           </button>
         </li>
@@ -133,6 +158,22 @@ export default function NavBar() {
           <NavLink to="/overdue" data-label="Overdue">
             <AlertCircle size={20} color="black" className="overdue-icon" />
           </NavLink>
+        </li>
+        <li className="nav-li analytics">
+          <NavLink to="/analytics" data-label="Analytics">
+            <ChartNoAxesCombined
+              size={20}
+              storke={"#000"}
+              color="black"
+              className="analytics-icon"
+            />
+          </NavLink>
+        </li>
+
+        <li className="nav-li  mobile-nav-li">
+          <ProfileSignOut onClick={logout} className="mobile-pc">
+            Logout
+          </ProfileSignOut>
         </li>
       </NavbarStyle>
     </>
