@@ -6,6 +6,8 @@ import { useTasks, fadeOut, timeAgo } from "./utils";
 import moment from "moment";
 import { useUserContext } from "../context/usercontext";
 
+import { useNavigate } from "react-router-dom";
+
 // const FilterReducer = (state,action)=>{
 
 //   switch(action.type){
@@ -35,10 +37,48 @@ function MainContent() {
     setActiveTasks,
   } = useTasks();
 
-  let { loading, setLoading } = useUserContext();
+  let {
+    loading,
+    setLoading,
+    loginStatus,
+    setLoginStatus,
+    userName,
+    setUserName,
+  } = useUserContext();
   const handleTaskBtn = () => {
-    setIsFormVisible(!isFormVisible);
+    setIsFormVisible(true);
   };
+  const BASE_URL = "https://backend-fastapi-3qe5.onrender.com";
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(BASE_URL + "/auth/me", {
+          method: "GET",
+          credentials: "include",
+        });
+        const data = await res.json();
+        setUserName(data?.user || "Buddy");
+        if (res.ok) {
+          setLoginStatus(true);
+          navigate("/");
+          return;
+        }
+        setLoginStatus(false);
+        navigate("/auth/login");
+      } catch (err) {
+        console.error("Error fetching user:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (!loginStatus) {
+      // fetchUser();//mobile
+    }
+    setLoginStatus(true); //mobile
+  }, []);
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -121,7 +161,7 @@ function MainContent() {
         </div>
 
         <TaskContainerStyle id={"task-container"}>
-          {!loading ? (
+          {!loading && loginStatus ? (
             processedTasks.map((task, idx) => {
               return (
                 <CartStyle key={task.taskid}>
@@ -155,23 +195,25 @@ function MainContent() {
           ) : (
             <p>Loading...</p>
           )}
-          <CartStyle border={"true"}>
-            <button
-              style={{
-                textAlign: "center",
-                borderRadius: "0.4rem",
-                border: "none",
-                height: "11rem",
-                cursor: "pointer",
-                fontSize: "1.2rem",
-                fontWeight: "450",
-                color: "grey",
-              }}
-              onClick={handleTaskBtn}
-            >
-              Add Task
-            </button>
-          </CartStyle>
+          {!loading && loginStatus && (
+            <CartStyle border={"true"} className="last-card">
+              <button
+                style={{
+                  textAlign: "center",
+                  borderRadius: "0.4rem",
+                  border: "none",
+                  height: "11rem",
+                  cursor: "pointer",
+                  fontSize: "1.2rem",
+                  fontWeight: "450",
+                  color: "grey",
+                }}
+                onClick={handleTaskBtn}
+              >
+                Add Task
+              </button>
+            </CartStyle>
+          )}
         </TaskContainerStyle>
         {isMounted && (
           <TaskForm

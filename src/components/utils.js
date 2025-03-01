@@ -20,6 +20,12 @@ export const ButtonStyle = styled.button`
   color: ${({ fc }) => (fc ? fc : "#fff")};
   border: ${({ brc }) => (brc ? brc : "none")};
   font-weight: 450;
+  margin-right: 2rem;
+  cursor: pointer;
+  @media (max-width: 550px) {
+    width: 25%;
+    display: ${({ isWant }) => (isWant ? "block" : "none")}; //mobile
+  }
 `;
 
 export function Button({ name }) {
@@ -48,16 +54,20 @@ export const MainContentStyle = styled.div`
   border-radius: 0.3rem;
   // border: 1px solid #000;
   box-shadow: 0 0 1px #000;
-
   display: grid;
   grid-template-rows: 2.5rem 80vh;
   row-gap: 0.2rem;
+  @media (max-width: 550px) {
+    width: 100%;
+    padding: 3px 3px;
+    height: 100dvh;
+    padding-bottom: 20px;
+  }
 `;
 
 export const TaskContainerStyle = styled.div`
   padding: 0.5rem;
   display: grid;
-
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, auto);
   gap: 1rem;
@@ -76,6 +86,16 @@ export const TaskContainerStyle = styled.div`
   &::-webkit-scrollbar-track {
     background: #e3f2fd;
   }
+
+  @media (max-width: 550px) {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    row-gap: 15px;
+    height: 100%;
+    margin-bottom: 40px;
+    overflow-y: scroll !important;
+  }
 `;
 
 export const CartStyle = styled.div`
@@ -88,6 +108,11 @@ export const CartStyle = styled.div`
   oveflow: hidden;
   height: 12rem;
   border: ${({ border }) => (border ? "3px dotted grey" : "none")};
+
+  @media (max-width: 540px) {
+    width: 96%;
+    margin: 0 auto;
+  }
 `;
 export const FilterBtns = ["All", "Low", "Medium", "Hard"];
 
@@ -199,9 +224,10 @@ export const fadeOut = keyframes`
 // `;
 // Styled Component
 const TaskFormStyle = styled.div`
-  z-index: 3;
+ 
   position: absolute;
-  background: #fff;
+  background: #e8f9ff;
+  backdrop-filter: blur(15px); /* Blurs everything behind */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -210,7 +236,9 @@ const TaskFormStyle = styled.div`
   border-radius: 0.4rem;
   padding: 0.5rem;
   transition: opacity 0.3s ease, transform 0.3s ease;
+  border: 0.5px solid #bbb;
   visibility: ${({ isVisible }) => (isVisible ? "visible" : "hidden")};
+  z-index: 8;
   ${({ isVisible }) =>
     isVisible
       ? css`
@@ -336,8 +364,9 @@ export const TaskForm = ({ isVisible, onAnimationEnd, taskToEdit }) => {
             style={{ textAlign: "center", marginTop: "0.3rem" }}
             bg={isEditing ? "#3674B5" : "#16C47F"}
             w={"100%"}
+            isWant={true}
           >
-            {isEditing ? "Update Task" : "Create Task"}
+            {isEditing ? "Update" : "Create"}
           </ButtonStyle>
         </div>
       </form>
@@ -359,3 +388,41 @@ export const timeAgo = (timestamp) => {
   if (diffInDays < 7) return `${diffInDays} days ago`;
   return createdTime.format("YYYY-MM-DD");
 };
+
+// Spinner Animation
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+// Styled Spinner Component
+const Spinner = styled.div`
+  width: 35px;
+  height: 35px;
+  border: 6px solid #ddd;
+  border-top: 6px solid white;
+  border-radius: 50%;
+  animation: ${spin} 1s linear infinite;
+`;
+
+// Styled Loading Container
+export const ProfileLoading = styled.div`
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  flex-direction: column;
+  color: #000;
+`;
+
+export function LoadingProfile() {
+  return (
+    <ProfileLoading>
+      <Spinner />
+      <p>Loading..</p>
+    </ProfileLoading>
+  );
+}

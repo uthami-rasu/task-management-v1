@@ -31,6 +31,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  width: 100%;
 }
 
 .chart-container {
@@ -51,45 +53,51 @@
   fill: #777;
 }
 
-/* Footer Styling */
-.card-footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  text-align: center;
-}
-
-.trend {
-  display: flex;
-  align-items: center;
-  font-weight: bold;
-  color: #2ecc71;
-}
-
-.trend-icon {
-  width: 16px;
-  height: 16px;
-  margin-left: 4px;
-}
-
-.chart-footer-text {
-  font-size: 0.9rem;
-  color: #777;
-}
-
 /* Responsive Design */
-@media (max-width: 500px) {
+@media (max-width: 550px) {
   .card {
-    max-width: 90%;
+    max-width: 100%;
+  }
+  .card-title {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .card-description {
+    font-size: 0.8rem;
+    color: #666;
   }
 
   .chart-container {
-    max-width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .chart-total {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
+  }
+
+  /* Chart Container */
+  .mobile-recharts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px !important;
+    height: 250px !important;
+    background: #ffffff1a; /* Light glass effect */
+    backdrop-filter: blur(10px); /* Blurry glass effect */
+    border-radius: 50%;
+    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); */
+  }
+
+  /* Customizing the Radial Bars */
+  .mobile-recharts .recharts-radial-bar-background {
+    fill: rgba(255, 255, 255, 0.3); /* Light transparent background */
+  }
+
+  .mobile-recharts .recharts-radial-bar {
+    stroke-width: 1;
   }
 }
 
@@ -101,6 +109,7 @@
   font-size: 12px;
   text-align: center;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 6;
 }
 
 .tooltip-label {

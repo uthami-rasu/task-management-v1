@@ -1,15 +1,15 @@
+import React, { Suspense, lazy, useEffect } from "react";
 import styled from "styled-components";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 import NavBar from "./navbar";
 import Header from "./header";
-import MainContent from "./mainContent";
-import Profile from "./profile";
-import { Routes, Route } from "react-router-dom";
-import DynamicMainContent from "../pages/Pending";
 import { useUserContext } from "../context/usercontext";
 import Register from "../register/register";
 import VerifyEmail from "../register/verify_email";
 import Login from "../register/login";
+
+import { LoadingProfile } from "./utils";
 
 export const ContainerStyle = styled.div`
   height: 99vh;
@@ -20,39 +20,158 @@ export const ContainerStyle = styled.div`
   grid-template-columns: 40px 9fr 2fr;
   grid-template-rows: 50px 1fr;
   gap: 0.5rem;
+
+  @media (max-width: 550px) {
+    position: relative;
+    display: flex !important; //ch
+    flex-direction: column;
+    flex-wrap: no-wrap;
+    gap: 0px;
+  }
 `;
 
+// Lazy-loaded components
+const MainContent = lazy(() => import("./mainContent"));
+const DynamicMainContent = lazy(() => import("../pages/Pending"));
+const Profile = lazy(() => import("./profile"));
+
 export default function Container() {
-  let { loginStatus } = useUserContext();
+
+  const {
+    location,
+    isLoginFormVisible,
+    loginStatus,
+    setLoginStatus,
+    setLoading,
+    setUserName,
+    userName,
+    BASE_URL,
+    setIsLoginFormVisible,
+    navigate
+  } = useUserContext();
+
+  
+
+  useEffect(() => {
+    if (
+      ["/auth/register", "/auth/login", "/verify-email"].includes(
+        window.location.pathname
+      )
+    ) {
+      //navigate(window.location.pathname);
+      return;
+    }
+    if (localStorage.getItem("loginStatus")) {
+      setLoginStatus(true);
+      
+      const storedUserName = localStorage.getItem("username");
+      if (!userName || userName === "Buddy") {
+        setUserName(storedUserName || "Guest"); // Fallback to "Guest" if username is null
+      }
+    
+      return;
+    }
+    const fetchUser = async () => {
+     
+      try {
+        setLoading(true);
+        const res = await fetch(BASE_URL + "/auth/me", {
+          method: "GET",
+          credentials: "include",
+        });
+
+        const data = await res.json();
+        setUserName(data?.user || "Nope");
+
+        if (res.ok) {
+          setLoginStatus(true);
+          if (window.location.pathname !== "/") {
+            navigate(window.location.pathname);
+          }
+        } else{
+          setLoginStatus(false);
+        setIsLoginFormVisible(true);
+        if (window.location.pathname !== "/auth/login") {
+          navigate("/auth/login");
+        }
+        }
+      } catch (err) {
+        console.error("Error fetching user:", err);
+        setLoginStatus(false);
+        setIsLoginFormVisible(true);
+        if (window.location.pathname !== "/auth/login") {
+          navigate("/auth/login");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (!localStorage.getItem("loginStatus")) {
+      fetchUser(); //mobile
+    }
+   
+  }, [loginStatus, navigate, location.pathname]); // ✅ Corrected dependencies
+
   return (
-    <ContainerStyle>
-      <Header></Header>
-      <NavBar></NavBar>
+    <ContainerStyle className={location.pathname === "/analytics" ? "analytics-active":""}>
+      <Header />
+      <NavBar />
 
       <Routes>
+        <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
-        <Route path="/" element={<Login />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
 
-        <Route path="/home" element={<MainContent />} />
+        {/* Lazy-loaded components wrapped in Suspense */}
+        <Route
+          path="/"
+          element={
+            <Suspense fallback={<LoadingProfile />}>
+              <MainContent />
+            </Suspense>
+          }
+        />
         <Route
           path="/completed"
-          element={<DynamicMainContent cType={"Completed"} />}
+          element={
+            <Suspense fallback={<p>Loading...</p>}>
+              <DynamicMainContent cType="Completed" />
+            </Suspense>
+          }
         />
         <Route
           path="/pending"
-          element={<DynamicMainContent cType={"Pending"} />}
+          element={
+            <Suspense fallback={<p>Loading...</p>}>
+              <DynamicMainContent cType="Pending" />
+            </Suspense>
+          }
         />
         <Route
           path="/starred"
-          element={<DynamicMainContent cType={"Favorite"} />}
+          element={
+            <Suspense fallback={<p>Loading...</p>}>
+              <DynamicMainContent cType="Favorite" />
+            </Suspense>
+          }
         />
         <Route
           path="/overdue"
-          element={<DynamicMainContent cType={"Overdue"} />}
+          element={
+            <Suspense fallback={<p>Loading...</p>}>
+              <DynamicMainContent cType="Overdue" />
+            </Suspense>
+          }
         />
       </Routes>
-      {loginStatus && <Profile></Profile>}
+
+      {/* Lazy-load Profile if loginStatus is true */}
+      {loginStatus && (
+        <Suspense fallback={<LoadingProfile />}>
+          <Profile className="pc-profile" />
+        </Suspense>
+      )}
     </ContainerStyle>
   );
 }

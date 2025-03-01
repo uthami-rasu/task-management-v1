@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+
 import { transform } from "typescript";
 import { useUserContext } from "../context/usercontext";
 import { useEffect } from "react";
-
+import { useTasks } from "../components/utils";
 function Login() {
   const {
     isLoginFormVisible,
@@ -16,40 +16,56 @@ function Login() {
     setUserCredentials,
     setLoginStatus,
     setIsLoginFormVisible,
+    loginStatus,
+    navigate,
+    BASE_URL,
   } = useUserContext();
+  const { setIsFormVisible } = useTasks();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  // https://laughing-space-guacamole-v6q7gw4x5j73xv5x-8000.app.github.dev/api/v1/users
-  const BASE_URL = "https://backend-fastapi-3qe5.onrender.com";
+
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState({ hasError: false, content: "" });
-  const navigate = useNavigate();
 
   useEffect(() => {
-    setIsLoginFormVisible(true);
-    setLoginStatus(false);
-    fetch(BASE_URL + "/auth/me", {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((res) => {
-        console.log(res);
+    console.log("LS",loginStatus);
+    const fetchUser = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(BASE_URL + "/auth/me", {
+          method: "GET",
+          credentials: "include",
+          mode: "cors",
+        });
+        const data = await res.json();
+        setUserName(data?.user || "Buddy");
         if (res.ok) {
           setLoginStatus(true);
-          setIsLoginFormVisible(false);
-          navigate("/home");
+
+          navigate("/");
+          return;
         }
-        return res.json();
-      })
-      .then((data) => setUserName(data?.user?.email))
-      .catch((err) => console.log(err));
+        setLoginStatus(false);
+      } catch (err) {
+        setLoginStatus(false);
+        console.error("Error fetching user:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    setIsFormVisible(false);
+    if (!loginStatus) {
+      fetchUser();
+    }
   }, []);
+
   const togglePassword = () => setShowPassword(!showPassword);
 
   const onSubmit = async (data) => {
+    console.log("submit");
     setLoading(true);
     setMessage({ ...message, content: "Please wait.." });
 
@@ -62,15 +78,25 @@ function Login() {
       });
 
       const result = await response.json();
-
+      console.log(response);
       if (!response.ok) {
         throw new Error(result?.detail || "Something went wrong");
       }
+      if(response.status === 202){
+        setMessage({ hasError: false, content: result?.message });
+        setTimeout(() => {
+          navigate("/verify-email");
+        }, 1000);
+        return;
+      }
       console.log(result);
       setMessage({ hasError: false, content: result?.message });
+      setUserName(result?.user);
       setTimeout(() => {
+        localStorage.setItem("username",result?.user);
+        localStorage.setItem("loginStatus",true);
         toggleStatus();
-        navigate("/home");
+        navigate("/");
       }, 1000);
     } catch (err) {
       setMessage({ hasError: true, content: err.message });
@@ -78,7 +104,6 @@ function Login() {
     }
   };
 
-  if (!isLoginFormVisible) return null;
   return (
     <div style={styles.container}>
       <h2 style={styles.heading}>Login</h2>
@@ -141,6 +166,7 @@ const styles = {
     left: "50%",
     transform: "translate(-50%, -50%)",
     boxShadow: "0 4px 10px grey",
+    // display: "none", //mobile
   },
   heading: { fontSize: "24px", marginBottom: "10px" },
   form: { display: "flex", flexDirection: "column", gap: "10px" },

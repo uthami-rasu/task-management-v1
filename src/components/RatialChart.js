@@ -45,6 +45,7 @@ export function RadialChart() {
       <div className="card-content">
         <div className="chart-container">
           <RadialBarChart
+            className="mobile-recharts"
             width={200}
             height={200}
             data={chartData}
