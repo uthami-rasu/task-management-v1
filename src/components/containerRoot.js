@@ -36,7 +36,6 @@ const DynamicMainContent = lazy(() => import("../pages/Pending"));
 const Profile = lazy(() => import("./profile"));
 
 export default function Container() {
-
   const {
     location,
     isLoginFormVisible,
@@ -47,10 +46,18 @@ export default function Container() {
     userName,
     BASE_URL,
     setIsLoginFormVisible,
-    navigate
+    navigate,
   } = useUserContext();
-
-  
+  console.log("updated");
+  if (
+    !loginStatus &&
+    ["/auth/register", "/auth/login", "/verify-email"].includes(
+      !window.location.pathname
+    )
+  ) {
+    console.log("updated.");
+    return;
+  }
 
   useEffect(() => {
     if (
@@ -58,21 +65,19 @@ export default function Container() {
         window.location.pathname
       )
     ) {
-      //navigate(window.location.pathname);
-      return;
+      return navigate(window.location.pathname);
     }
     if (localStorage.getItem("loginStatus")) {
       setLoginStatus(true);
-      
+
       const storedUserName = localStorage.getItem("username");
       if (!userName || userName === "Buddy") {
         setUserName(storedUserName || "Guest"); // Fallback to "Guest" if username is null
       }
-    
+
       return;
     }
     const fetchUser = async () => {
-     
       try {
         setLoading(true);
         const res = await fetch(BASE_URL + "/auth/me", {
@@ -88,12 +93,12 @@ export default function Container() {
           if (window.location.pathname !== "/") {
             navigate(window.location.pathname);
           }
-        } else{
+        } else {
           setLoginStatus(false);
-        setIsLoginFormVisible(true);
-        if (window.location.pathname !== "/auth/login") {
-          navigate("/auth/login");
-        }
+          setIsLoginFormVisible(true);
+          if (window.location.pathname !== "/auth/login") {
+            navigate("/auth/login");
+          }
         }
       } catch (err) {
         console.error("Error fetching user:", err);
@@ -110,11 +115,12 @@ export default function Container() {
     if (!localStorage.getItem("loginStatus")) {
       fetchUser(); //mobile
     }
-   
   }, [loginStatus, navigate, location.pathname]); // ✅ Corrected dependencies
 
   return (
-    <ContainerStyle className={location.pathname === "/analytics" ? "analytics-active":""}>
+    <ContainerStyle
+      className={location.pathname === "/analytics" ? "analytics-active" : ""}
+    >
       <Header />
       <NavBar />
 

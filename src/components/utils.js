@@ -26,11 +26,8 @@ export const ButtonStyle = styled.button`
     width: 25%;
     display: ${({ isWant }) => (isWant ? "block" : "none")}; //mobile
   }
+  margin: auto;
 `;
-
-export function Button({ name }) {
-  return <ButtonStyle>{name ?? "No Name"}</ButtonStyle>;
-}
 
 export const SocialLogos = [
   {
@@ -95,6 +92,12 @@ export const TaskContainerStyle = styled.div`
     height: 100%;
     margin-bottom: 40px;
     overflow-y: scroll !important;
+  }
+  @media (min-width: 1200px) {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    row-gap: 0.8rem;
   }
 `;
 
@@ -224,7 +227,6 @@ export const fadeOut = keyframes`
 // `;
 // Styled Component
 const TaskFormStyle = styled.div`
- 
   position: absolute;
   background: #e8f9ff;
   backdrop-filter: blur(15px); /* Blurs everything behind */

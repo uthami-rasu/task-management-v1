@@ -21,9 +21,8 @@ export const ProfileStyle = styled.div`
     width: 96%;
     margin: auto;
     position: absolute;
-    top:5%;
-    display:none;
-    
+    top: 5%;
+    display: none;
   }
 `;
 
@@ -71,7 +70,8 @@ export const ProfileSignOut = styled.button`
   padding: 0.2rem;
   cursor: pointer;
 
-  z-index:10;
+  z-index: 10;
+  margin: auto;
 `;
 
 const ImageTag = styled.img`
