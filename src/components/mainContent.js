@@ -8,13 +8,6 @@ import { useUserContext } from "../context/usercontext";
 
 import { useNavigate } from "react-router-dom";
 
-// const FilterReducer = (state,action)=>{
-
-//   switch(action.type){
-//   case  'all':
-//     return {...state,action.payloads.
-//   }
-// }
 function MainContent() {
   let [filters, setFilters] = useState({
     type: "all",
@@ -74,11 +67,6 @@ function MainContent() {
         setLoading(false);
       }
     };
-
-    if (!loginStatus) {
-      // fetchUser();//mobile
-    }
-    setLoginStatus(true); //mobile
   }, []);
 
   const [isMounted, setIsMounted] = useState(false);
@@ -131,8 +119,10 @@ function MainContent() {
 
   if (!loginStatus) {
     navigate("/auth/login");
+    console.log("m1");
     return;
   }
+  console.log("m2");
   return (
     <>
       <MainContentStyle>

@@ -90,12 +90,11 @@ function Login() {
       }
       console.log(result);
       setMessage({ hasError: false, content: result?.message });
-      setUserName(result?.user);
       setTimeout(() => {
         localStorage.setItem("username", result?.user);
         localStorage.setItem("loginStatus", true);
-        toggleStatus();
-        navigate("/");
+        setLoginStatus(true);
+        setIsLoginFormVisible(false);
       }, 1000);
     } catch (err) {
       setMessage({ hasError: true, content: err.message });

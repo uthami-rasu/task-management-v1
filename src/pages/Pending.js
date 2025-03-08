@@ -9,6 +9,7 @@ import {
 } from "../components/utils";
 import { MainContentStyle } from "../components/mainContent";
 import { Star, Edit, Trash2 } from "lucide-react";
+import { useUserContext } from "../context/usercontext";
 
 function DynamicMainContent({ cType }) {
   let [filters, setFilters] = useState({
@@ -31,6 +32,7 @@ function DynamicMainContent({ cType }) {
     CartStyle,
   } = useTasks();
 
+  const { loginStatus } = useUserContext();
   const handleTaskBtn = () => {
     setIsFormVisible(!isFormVisible);
   };
@@ -107,6 +109,10 @@ function DynamicMainContent({ cType }) {
         timeAgo: timeAgo(task.modified), // Compute only once per render cycle
       }));
   }, [tasks, filters.type, cType]);
+
+  if (!loginStatus) {
+    return;
+  }
   return (
     <>
       <MainContentStyle>

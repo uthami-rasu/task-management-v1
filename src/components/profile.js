@@ -101,6 +101,10 @@ function Profile() {
     deleteCookies: logout,
   } = useUserContext();
 
+  if (!loginStatus) {
+    return;
+  }
+
   return (
     <>
       {!loading && loginStatus ? (
