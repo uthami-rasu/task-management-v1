@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import Logo from "../assets/logo.png";
 
-import { useTasks, LoadingProfile } from "./utils";
-
+import { LoadingProfile } from "../Utils/utils";
+import useTasks from "../context/usertasks";
 import { RadialChart } from "./RatialChart";
 import { useUserContext } from "../context/usercontext";
 

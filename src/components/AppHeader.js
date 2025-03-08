@@ -1,28 +1,10 @@
-// import HeaderStyle from "./styles/elements";
-
-// style part
-import { styled } from "styled-components";
 import "./styles/header.css";
 import logo from "../assets/logo.png";
-import { ButtonStyle, useTasks } from "./utils";
+import { ButtonStyle } from "./StyledComponents/UtilsStyles";
+import useTasks from "../context/usertasks";
 import { useUserContext } from "../context/usercontext";
 import { Menu, SquarePlus } from "lucide-react";
-const HeaderStyle = styled.div`
-  grid-area: header;
-  display: grid;
-  grid-template-columns: 40px 1fr;
-  column-gap: 0.7rem;
-  @media (max-width: 550px) {
-    height: 50px;
-    .name-task h2 {
-      font-size: 18px;
-      margin-top: 3px;
-    }
-    .name-task span {
-      font-size: 9px;
-    }
-  }
-`;
+import { HeaderStyle } from "./StyledComponents/HeaderStyles";
 // core developement
 export default function Header() {
   let { isFormVisible, setIsFormVisible, activeTasks } = useTasks();
@@ -54,11 +36,16 @@ export default function Header() {
   return (
     <HeaderStyle>
       <div className="logo">
-        <img src={logo} alt="logo" />
+        <img
+          src={
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_8oBzeQTfCoIkhE3nRJkQJf8XETaQ7-ujhA&s"
+          }
+          alt="logo"
+        />
       </div>
       <div className="greet-middle">
         <div className="name-task">
-          <h2>Welcome, {userName}!</h2>
+          <h2>TasksEase</h2>
           {loginStatus && (
             <span>
               you have <b style={{ color: "green" }}>{activeTasks}</b> active

@@ -8,10 +8,9 @@ import {
   RadialBarChart,
 } from "recharts";
 import "./styles/RadialChart.css";
-import { ChartTooltip, ChartTooltipContent } from "./custom-tooltip";
+import { ChartTooltip, ChartTooltipContent } from "./CustomTooltip";
 
-import { useTasks } from "./utils";
-import { act } from "react";
+import useTasks from "../context/usertasks";
 const chartData = [{ month: "January", desktop: 1260, mobile: 570 }];
 const chartConfig = {
   desktop: {
