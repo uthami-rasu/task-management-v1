@@ -44,6 +44,7 @@ function MainContent() {
     setLoginStatus,
     userName,
     setUserName,
+    navigate,
   } = useUserContext();
   const handleTaskBtn = () => {
     setIsFormVisible(true);
@@ -128,6 +129,10 @@ function MainContent() {
     return result;
   }, [tasks, filters.type]);
 
+  if (!loginStatus) {
+    navigate("/auth/login");
+    return;
+  }
   return (
     <>
       <MainContentStyle>

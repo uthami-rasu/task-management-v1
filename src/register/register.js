@@ -6,6 +6,7 @@ import { useUserContext } from "../context/usercontext";
 
 function Register() {
   const {
+    loginStatus,
     isLoginFormVisible,
     toggleStatus,
     setLoading,
@@ -14,7 +15,7 @@ function Register() {
     userCredentials,
     setUserCredentials,
     navigate,
-    BASE_URL
+    BASE_URL,
   } = useUserContext();
   const {
     register,
@@ -25,7 +26,6 @@ function Register() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState({ hasError: false, content: "" });
- 
 
   const togglePassword = () => setShowPassword(!showPassword);
 
@@ -56,8 +56,10 @@ function Register() {
       console.log(err.message);
     }
   };
-
-  
+  if (loginStatus) {
+    navigate("/");
+    return;
+  }
   return (
     <div style={styles.container}>
       <h2 style={styles.heading}>Register</h2>

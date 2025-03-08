@@ -31,7 +31,7 @@ export const ContainerStyle = styled.div`
 `;
 
 // Lazy-loaded components
-const MainContent = lazy(() => import("./mainContent"));
+import MainContent from "./mainContent";
 const DynamicMainContent = lazy(() => import("../pages/Pending"));
 const Profile = lazy(() => import("./profile"));
 
@@ -130,14 +130,7 @@ export default function Container() {
         <Route path="/verify-email" element={<VerifyEmail />} />
 
         {/* Lazy-loaded components wrapped in Suspense */}
-        <Route
-          path="/"
-          element={
-            <Suspense fallback={<LoadingProfile />}>
-              <MainContent />
-            </Suspense>
-          }
-        />
+        <Route path="/" element={<MainContent />} />
         <Route
           path="/completed"
           element={

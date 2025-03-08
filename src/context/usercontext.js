@@ -5,7 +5,9 @@ import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 const UserContext = createContext();
 
 export function UserContextProvider({ children }) {
-  const [loginStatus, setLoginStatus] = useState(false);
+  const [loginStatus, setLoginStatus] = useState(
+    localStorage.getItem("loginStatus") === "true"
+  );
 
   const [isLoginFormVisible, setIsLoginFormVisible] = useState(false);
 
@@ -13,7 +15,9 @@ export function UserContextProvider({ children }) {
 
   const [clientToken, setClientToken] = useState("");
 
-  const [userName, setUserName] = useState("Buddy");
+  const [userName, setUserName] = useState(
+    localStorage.getItem("username") || "Buddy!"
+  );
 
   const navigate = useNavigate();
 
@@ -29,8 +33,7 @@ export function UserContextProvider({ children }) {
   const [toggleMenu, setToggleMenu] = useState(false);
 
   const deleteCookies = async () => {
-
-    try{
+    try {
       const res = await fetch(BASE_URL + "/auth/logout", {
         method: "POST",
         credentials: "include",
@@ -41,16 +44,11 @@ export function UserContextProvider({ children }) {
         localStorage.removeItem("loginStatus");
         alert(result.message);
         setLoginStatus(false);
-      navigate("/auth/login");
+        navigate("/auth/login");
       }
-      
-    }
-    catch(err){
+    } catch (err) {
       console.log(err);
     }
-   
-
-  
   };
 
   return (

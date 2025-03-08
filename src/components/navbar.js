@@ -109,10 +109,9 @@ export const NavbarStyle = styled.div`
     .nav-li:has(.active .analytics-icon) {
       border-bottom: 2px solid #1d0576;
     }
-    .nav-li:has(.active .analytics-icon)  .profile-container{
-      display:flex;
+    .nav-li:has(.active .analytics-icon) .profile-container {
+      display: flex;
     }
-    
   }
 `;
 
@@ -122,9 +121,12 @@ export default function NavBar() {
     setToggleMenu,
     location,
     deleteCookies: logout,
-    loginStatus
+    loginStatus,
   } = useUserContext();
 
+  if (!loginStatus) {
+    return;
+  }
   useEffect(() => {
     setToggleMenu(false);
   }, [location.pathname]);

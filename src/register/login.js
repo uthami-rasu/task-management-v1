@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-
 import { transform } from "typescript";
 import { useUserContext } from "../context/usercontext";
 import { useEffect } from "react";
@@ -31,36 +30,36 @@ function Login() {
   const [message, setMessage] = useState({ hasError: false, content: "" });
 
   useEffect(() => {
-    console.log("LS",loginStatus);
-    const fetchUser = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch(BASE_URL + "/auth/me", {
-          method: "GET",
-          credentials: "include",
-          mode: "cors",
-        });
-        const data = await res.json();
-        setUserName(data?.user || "Buddy");
-        if (res.ok) {
-          setLoginStatus(true);
-
-          navigate("/");
-          return;
-        }
-        setLoginStatus(false);
-      } catch (err) {
-        setLoginStatus(false);
-        console.error("Error fetching user:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
     setIsFormVisible(false);
     if (!loginStatus) {
       fetchUser();
     }
+    console.log("LS", loginStatus);
   }, []);
+  const fetchUser = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(BASE_URL + "/auth/me", {
+        method: "GET",
+        credentials: "include",
+        mode: "cors",
+      });
+      const data = await res.json();
+      setUserName(data?.user || "Buddy");
+      if (res.ok) {
+        setLoginStatus(true);
+
+        navigate("/");
+        return;
+      }
+      setLoginStatus(false);
+    } catch (err) {
+      setLoginStatus(false);
+      console.error("Error fetching user:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const togglePassword = () => setShowPassword(!showPassword);
 
@@ -82,7 +81,7 @@ function Login() {
       if (!response.ok) {
         throw new Error(result?.detail || "Something went wrong");
       }
-      if(response.status === 202){
+      if (response.status === 202) {
         setMessage({ hasError: false, content: result?.message });
         setTimeout(() => {
           navigate("/verify-email");
@@ -93,8 +92,8 @@ function Login() {
       setMessage({ hasError: false, content: result?.message });
       setUserName(result?.user);
       setTimeout(() => {
-        localStorage.setItem("username",result?.user);
-        localStorage.setItem("loginStatus",true);
+        localStorage.setItem("username", result?.user);
+        localStorage.setItem("loginStatus", true);
         toggleStatus();
         navigate("/");
       }, 1000);
@@ -103,6 +102,10 @@ function Login() {
       console.log(err.message);
     }
   };
+  if (loginStatus) {
+    navigate("/");
+    return;
+  }
 
   return (
     <div style={styles.container}>

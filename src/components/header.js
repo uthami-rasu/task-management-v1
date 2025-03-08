@@ -27,11 +27,19 @@ const HeaderStyle = styled.div`
 export default function Header() {
   let { isFormVisible, setIsFormVisible, activeTasks } = useTasks();
 
-  let { loginStatus, userName, navigate, toggleMenu, setToggleMenu } =
+  let { loginStatus, userName, navigate, toggleMenu, setToggleMenu, location } =
     useUserContext();
 
   const handleHeaderBtn = () => {
-    console.log(isFormVisible,'isfv');
+    console.log(location.pathname);
+    if (!loginStatus && location.pathname === "/auth/register") {
+      navigate("/auth/login");
+      return;
+    }
+    if (!loginStatus && location.pathname === "/auth/login") {
+      navigate("/auth/register");
+      return;
+    }
     if (loginStatus) {
       setIsFormVisible(true);
     } else {
@@ -59,19 +67,23 @@ export default function Header() {
           )}
           {!loginStatus && <span>login or register to view your tasks</span>}
         </div>
-        <ButtonStyle onClick={handleHeaderBtn}>
-          {loginStatus && "Add Task"}
-          {!loginStatus && "Login"}
-        </ButtonStyle>
 
         {loginStatus && (
           <button className="no-btn-style" onClick={handleHeaderBtn}>
             <SquarePlus />
           </button>
         )}
-        {loginStatus && <button className="no-btn-style" onClick={handleToggleMenu}>
-          <Menu />
-        </button>}
+        {loginStatus && (
+          <button className="no-btn-style" onClick={handleToggleMenu}>
+            <Menu />
+          </button>
+        )}
+
+        <ButtonStyle onClick={handleHeaderBtn}>
+          {loginStatus && "Add Task"}
+          {!loginStatus && location.pathname === "/auth/register" && "Login"}
+          {!loginStatus && location.pathname === "/auth/login" && "Register"}
+        </ButtonStyle>
       </div>
     </HeaderStyle>
   );

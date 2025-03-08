@@ -26,7 +26,7 @@ export const ButtonStyle = styled.button`
     width: 25%;
     display: ${({ isWant }) => (isWant ? "block" : "none")}; //mobile
   }
-  margin: auto;
+  // margin: auto;
 `;
 
 export const SocialLogos = [
