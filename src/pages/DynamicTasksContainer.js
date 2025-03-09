@@ -1,14 +1,17 @@
 import React from "react";
 import { useState, useEffect, useMemo, useRef } from "react";
+import { FilterBtns } from "../Utils/constants";
+import { fadeOut } from "../components/StyledComponents/TaskFormStyles";
+import { TaskForm } from "../components/Forms/TaskForm";
+import { timeAgo } from "../Utils/utils";
+import useTasks from "../context/usertasks";
 import {
-  useTasks,
-  FilterBtns,
-  TaskForm,
-  fadeOut,
-  timeAgo,
-} from "../components/utils";
-import { MainContentStyle } from "../components/mainContent";
+  MainContentStyle,
+  TaskContainerStyle,
+  CartStyle,
+} from "../components/StyledComponents/MainContentStyles";
 import { Star, Edit, Trash2 } from "lucide-react";
+import { useUserContext } from "../context/usercontext";
 
 function DynamicMainContent({ cType }) {
   let [filters, setFilters] = useState({
@@ -26,11 +29,9 @@ function DynamicMainContent({ cType }) {
     setTaskToEdit,
     isEditing,
     setIsEditing,
-    MainContentStyle,
-    TaskContainerStyle,
-    CartStyle,
   } = useTasks();
 
+  const { loginStatus } = useUserContext();
   const handleTaskBtn = () => {
     setIsFormVisible(!isFormVisible);
   };
@@ -86,12 +87,6 @@ function DynamicMainContent({ cType }) {
             return task.isfavor === true;
 
           case "Overdue":
-            // console.log(
-            //   "Is Overdue:",
-            //   Date.now() > new Date(task.modified).getTime(),
-            //   new Date(task.modified).getTime(),
-            //   Date.now()
-            // );
             return (
               Date.now() > new Date(task.duedate).getTime() &&
               task.completed === "no"
@@ -107,6 +102,7 @@ function DynamicMainContent({ cType }) {
         timeAgo: timeAgo(task.modified), // Compute only once per render cycle
       }));
   }, [tasks, filters.type, cType]);
+
   return (
     <>
       <MainContentStyle>
