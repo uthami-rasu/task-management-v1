@@ -11,6 +11,7 @@ import {
   TaskContainerStyle,
   CartStyle,
 } from "./StyledComponents/MainContentStyles";
+import { ShimmerCard, ShimmerMainContent } from "./ShimmerUi";
 function MainContent() {
   let [processedTasks, setProcessedTasks] = useState([]);
   let [filters, setFilters] = useState({
@@ -109,103 +110,101 @@ function MainContent() {
     navigate("/auth/login");
     return;
   }
-  if (loading) {
-    return <h1>Loading...(processing Tasks)</h1>;
-  }
-  return (
-    <>
-      <MainContentStyle>
-        <div className="inner-header">
-          <h2>
-            {filters.type.charAt(0).toUpperCase() + filters.type.slice(1)} Tasks
-          </h2>
-          <div className="filters">
-            {FilterBtns.map((elem, idx) => {
-              return (
-                <button
-                  style={
-                    filters.isActive && filters.type === elem.toLowerCase()
-                      ? { color: "green", background: "#ddd", fontWeight: 500 }
-                      : { color: "#000", background: "#fff" }
-                  }
-                  key={idx}
-                  onClick={() =>
-                    setFilters({
-                      type: elem.toLowerCase(),
-                      index: idx,
-                      isActive: true,
-                    })
-                  }
-                >
-                  {elem}
-                </button>
-              );
-            })}
-          </div>
-        </div>
 
-        <TaskContainerStyle id={"task-container"}>
-          {processedTasks.map((task, idx) => {
+  return loading ? (
+    <ShimmerMainContent />
+  ) : (
+    <MainContentStyle>
+      <div className="inner-header">
+        <h2>
+          {filters.type.charAt(0).toUpperCase() + filters.type.slice(1)} Tasks
+        </h2>
+        <div className="filters">
+          {FilterBtns.map((elem, idx) => {
             return (
-              <CartStyle key={task.taskid}>
-                <h1 className="cart-title">{task.title}</h1>
-                <p className="cart-desc">{task.desc}</p>
-                <div className="cart-footer">
-                  <p>{task.timeAgo}</p>
-                  <p style={{ color: task.color }}>
-                    {task.status.charAt(0).toUpperCase() + task.status.slice(1)}
-                  </p>
-                  <div className="grps">
-                    <button onClick={() => handleIsFavor(task.taskid)}>
-                      <Star
-                        size={20}
-                        fill={task.isfavor ? "yellow" : "grey"}
-                        stroke="grey"
-                      />
-                    </button>
-                    <button onClick={() => handleTaskEdit(task)}>
-                      <Edit size={20} stroke={"blue"} />
-                    </button>
-                    <button onClick={() => handleDeleteTask(task.taskid)}>
-                      <Trash2 fill="red" stroke={"#000"} size={20} />
-                    </button>
-                  </div>
-                </div>
-              </CartStyle>
+              <button
+                style={
+                  filters.isActive && filters.type === elem.toLowerCase()
+                    ? { color: "green", background: "#ddd", fontWeight: 500 }
+                    : { color: "#000", background: "#fff" }
+                }
+                key={idx}
+                onClick={() =>
+                  setFilters({
+                    type: elem.toLowerCase(),
+                    index: idx,
+                    isActive: true,
+                  })
+                }
+              >
+                {elem}
+              </button>
             );
           })}
-          {loginStatus && (
-            <CartStyle border={"true"} className="last-card">
-              <button
-                style={{
-                  textAlign: "center",
-                  borderRadius: "0.4rem",
-                  border: "none",
-                  height: "11rem",
-                  cursor: "pointer",
-                  fontSize: "1.2rem",
-                  fontWeight: "450",
-                  color: "grey",
-                }}
-                onClick={handleTaskBtn}
-              >
-                Add Task
-              </button>
+        </div>
+      </div>
+
+      <TaskContainerStyle id={"task-container"}>
+        {processedTasks.map((task, idx) => {
+          return (
+            <CartStyle key={task.taskid}>
+              <h1 className="cart-title">{task.title}</h1>
+              <p className="cart-desc">{task.desc}</p>
+              <div className="cart-footer">
+                <p>{task.timeAgo}</p>
+                <p style={{ color: task.color }}>
+                  {task.status.charAt(0).toUpperCase() + task.status.slice(1)}
+                </p>
+                <div className="grps">
+                  <button onClick={() => handleIsFavor(task.taskid)}>
+                    <Star
+                      size={20}
+                      fill={task.isfavor ? "yellow" : "grey"}
+                      stroke="grey"
+                    />
+                  </button>
+                  <button onClick={() => handleTaskEdit(task)}>
+                    <Edit size={20} stroke={"blue"} />
+                  </button>
+                  <button onClick={() => handleDeleteTask(task.taskid)}>
+                    <Trash2 fill="red" stroke={"#000"} size={20} />
+                  </button>
+                </div>
+              </div>
             </CartStyle>
-          )}
-        </TaskContainerStyle>
-        {isMounted && (
-          <TaskForm
-            isVisible={isFormVisible}
-            onAnimationEnd={handleAnimationEnd}
-            isEditing={isEditing}
-            taskToEdit={taskToEdit}
-          >
-            Task Form Content
-          </TaskForm>
+          );
+        })}
+        {loginStatus && (
+          <CartStyle border={"true"} className="last-card">
+            <button
+              style={{
+                textAlign: "center",
+                borderRadius: "0.4rem",
+                border: "none",
+                height: "11rem",
+                cursor: "pointer",
+                fontSize: "1.2rem",
+                fontWeight: "450",
+                color: "grey",
+              }}
+              onClick={handleTaskBtn}
+            >
+              Add Task
+            </button>
+          </CartStyle>
         )}
-      </MainContentStyle>
-    </>
+      </TaskContainerStyle>
+      {isMounted && (
+        <TaskForm
+          isVisible={isFormVisible}
+          onAnimationEnd={handleAnimationEnd}
+          isEditing={isEditing}
+          taskToEdit={taskToEdit}
+        >
+          Task Form Content
+        </TaskForm>
+      )}
+    </MainContentStyle>
   );
 }
 

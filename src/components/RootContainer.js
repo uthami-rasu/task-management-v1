@@ -16,6 +16,7 @@ import MainContent from "./TasksContainer";
 const DynamicMainContent = lazy(() => import("../pages/DynamicTasksContainer"));
 const Profile = lazy(() => import("./Analytics"));
 
+import { ShimmerMainContent } from "./ShimmerUi";
 export default function Container() {
   const {
     location,
@@ -115,7 +116,7 @@ export default function Container() {
         <Route
           path="/completed"
           element={
-            <Suspense fallback={<p>Loading...</p>}>
+            <Suspense fallback={<ShimmerMainContent />}>
               <DynamicMainContent cType="Completed" />
             </Suspense>
           }
@@ -123,7 +124,7 @@ export default function Container() {
         <Route
           path="/pending"
           element={
-            <Suspense fallback={<p>Loading...</p>}>
+            <Suspense fallback={<ShimmerMainContent />}>
               <DynamicMainContent cType="Pending" />
             </Suspense>
           }
@@ -132,7 +133,7 @@ export default function Container() {
         <Route
           path="/starred"
           element={
-            <Suspense fallback={<p>Loading...</p>}>
+            <Suspense fallback={<ShimmerMainContent />}>
               <DynamicMainContent cType="Favorite" />
             </Suspense>
           }
@@ -140,7 +141,7 @@ export default function Container() {
         <Route
           path="/overdue"
           element={
-            <Suspense fallback={<p>Loading...</p>}>
+            <Suspense fallback={<ShimmerMainContent />}>
               <DynamicMainContent cType="Overdue" />
             </Suspense>
           }
