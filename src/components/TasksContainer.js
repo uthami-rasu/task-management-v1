@@ -12,6 +12,8 @@ import {
   CartStyle,
 } from "./StyledComponents/MainContentStyles";
 import { ShimmerCard, ShimmerMainContent } from "./ShimmerUi";
+import useFetchTasks from "../Hooks/useFetchTasks";
+import { removeTask } from "./Api/deleteTask";
 function MainContent() {
   let [processedTasks, setProcessedTasks] = useState([]);
   let [filters, setFilters] = useState({
@@ -36,61 +38,35 @@ function MainContent() {
     setIsFormVisible(true);
   };
 
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const res = await fetch(BASE_URL + "/auth/me", {
-  //         method: "GET",
-  //         credentials: "include",
-  //       });
-  //       const data = await res.json();
-  //       setUserName(data?.user || "Buddy");
-  //       if (res.ok) {
-  //         setLoginStatus(true);
-  //         navigate("/");
-  //         return;
-  //       }
-  //       setLoginStatus(false);
-  //       navigate("/auth/login");
-  //     } catch (err) {
-  //       console.error("Error fetching user:", err);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  // }, []);
-
-  const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
-    setLoading(true);
-
     const result = tasks
       .filter((task) => filters.type === "all" || task.status === filters.type)
       .map((task) => ({
         ...task,
-        timeAgo: timeAgo(task.modified),
+        timeAgo: timeAgo(task?.last_modified),
       }));
     setProcessedTasks(result);
-    setLoading(false);
   }, [tasks, filters.type]);
+
   useEffect(() => {
-    if (isFormVisible) {
-      setIsMounted(true);
-      // console.log(fadeOut.toString());
-    }
-  }, [isFormVisible]);
+    fetchTasks();
+  }, []);
 
-  // Handle animation end for unmounting
-  const handleAnimationEnd = (event) => {
-    // console.log(event.animationName);
-    if (!isFormVisible && event.animationName === fadeOut.getName()) {
-      setIsMounted(false); // Only unmount after fadeOut animation finishes
-    }
+  const fetchTasks = async () => {
+    setLoading(true);
+    let response = await fetch(
+      "https://expert-spork-g4qp7v7xvqgv3xj7-8000.app.github.dev/api/tasks/"
+    );
+
+    let data = await response.json();
+    console.log(data);
+    updateTaskArray(data.Test);
+    setLoading(false);
   };
+  const handleDeleteTask = async (id) => {
+    updateTaskArray(tasks.filter((task, idx) => task.task_id !== id));
 
-  const handleDeleteTask = (id) => {
-    updateTaskArray(tasks.filter((task, idx) => task.taskid !== id));
+    await removeTask(id);
   };
   const handleTaskEdit = (task) => {
     setIsFormVisible(true);
@@ -101,7 +77,7 @@ function MainContent() {
   const handleIsFavor = (taskid) => {
     updateTaskArray(
       tasks.map((t) =>
-        t.taskid === taskid ? { ...t, isfavor: t.isfavor ? false : true } : t
+        t.task_id === taskid ? { ...t, is_favor: t.is_favor ? false : true } : t
       )
     );
   };
@@ -147,26 +123,26 @@ function MainContent() {
       <TaskContainerStyle id={"task-container"}>
         {processedTasks.map((task, idx) => {
           return (
-            <CartStyle key={task.taskid}>
+            <CartStyle key={task.task_id}>
               <h1 className="cart-title">{task.title}</h1>
-              <p className="cart-desc">{task.desc}</p>
+              <p className="cart-desc">{task.description}</p>
               <div className="cart-footer">
                 <p>{task.timeAgo}</p>
                 <p style={{ color: task.color }}>
                   {task.status.charAt(0).toUpperCase() + task.status.slice(1)}
                 </p>
                 <div className="grps">
-                  <button onClick={() => handleIsFavor(task.taskid)}>
+                  <button onClick={() => handleIsFavor(task.task_id)}>
                     <Star
                       size={20}
-                      fill={task.isfavor ? "yellow" : "grey"}
+                      fill={task.is_favor ? "yellow" : "grey"}
                       stroke="grey"
                     />
                   </button>
                   <button onClick={() => handleTaskEdit(task)}>
                     <Edit size={20} stroke={"blue"} />
                   </button>
-                  <button onClick={() => handleDeleteTask(task.taskid)}>
+                  <button onClick={() => handleDeleteTask(task.task_id)}>
                     <Trash2 fill="red" stroke={"#000"} size={20} />
                   </button>
                 </div>
@@ -194,10 +170,9 @@ function MainContent() {
           </CartStyle>
         )}
       </TaskContainerStyle>
-      {isMounted && (
+      {isFormVisible && (
         <TaskForm
           isVisible={isFormVisible}
-          onAnimationEnd={handleAnimationEnd}
           isEditing={isEditing}
           taskToEdit={taskToEdit}
         >

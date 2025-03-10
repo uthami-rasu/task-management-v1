@@ -33,7 +33,6 @@ export function RadialChart() {
       completed: completedTasks ?? 0,
     },
   ];
-  console.log(chartData);
 
   return (
     <div className="card">

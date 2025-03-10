@@ -26,3 +26,9 @@ export function LoadingProfile() {
     </ProfileLoading>
   );
 }
+
+export const generateId = () =>
+  crypto.randomUUID().replace(/-/g, "").slice(0, 6);
+
+
+

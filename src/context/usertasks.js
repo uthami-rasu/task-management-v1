@@ -8,13 +8,7 @@ export const TaskProvider = ({ children }) => {
   const [taskToEdit, setTaskToEdit] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [processedTasks, setProcessedTasks] = useState([]);
-  const [favTasks, setFavTasks] = useState([]);
-  const handleTaskEdit = (task) => {
-    setTaskToEdit(task);
-  };
-  const ValidateTask = (task) => {
-    return task;
-  };
+
   const updateTaskArray = (taskUpdated) => {
     setTasks([...taskUpdated]);
   };
@@ -26,8 +20,8 @@ export const TaskProvider = ({ children }) => {
   const { activeTasks, completedTasks } = useMemo(() => {
     return tasks.reduce(
       (acc, t) => {
-        if (t.completed === "no") acc.activeTasks += 1;
-        if (t.completed === "yes") acc.completedTasks += 1;
+        if (t.is_completed === "no") acc.activeTasks += 1;
+        if (t.is_completed === "yes") acc.completedTasks += 1;
         return acc;
       },
       { activeTasks: 0, completedTasks: 0 }
@@ -46,8 +40,6 @@ export const TaskProvider = ({ children }) => {
         setTaskToEdit,
         isEditing,
         setIsEditing,
-        favTasks,
-        setFavTasks,
         activeTasks,
         completedTasks,
         processedTasks,

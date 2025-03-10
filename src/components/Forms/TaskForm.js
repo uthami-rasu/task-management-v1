@@ -2,6 +2,9 @@ import useTasks from "../../context/usertasks";
 import { useEffect, useRef, useState } from "react";
 import { TaskFormStyle } from "../StyledComponents/TaskFormStyles";
 import { ButtonStyle } from "../StyledComponents/UtilsStyles";
+import { generateId } from "../../Utils/utils";
+import { insertTask } from "../Api/insertTask";
+import { updateTask } from "../Api/updateTask";
 export const TaskForm = ({ isVisible, onAnimationEnd, taskToEdit }) => {
   let {
     updateTaskArray,
@@ -28,26 +31,28 @@ export const TaskForm = ({ isVisible, onAnimationEnd, taskToEdit }) => {
   useEffect(() => {
     if (taskToEdit) {
       titleRef.current.value = taskToEdit.title;
-      descRef.current.value = taskToEdit.desc;
+      descRef.current.value = taskToEdit.description;
       statusRef.current.value = taskToEdit.status;
       dueDateRef.current.value = taskToEdit.duedate;
-      isCompletedRef.current.value = taskToEdit.completed;
+      isCompletedRef.current.value = taskToEdit.is_completed ? "yes" : "no";
     } else {
       clearRefValues();
     }
   }, [taskToEdit]);
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     const taskInstance = {
-      taskid: taskToEdit ? taskToEdit.taskid : tasks.length + 1,
+      task_id: taskToEdit ? taskToEdit.task_id : generateId(),
       title: titleRef.current?.value || "No Title",
-      desc: descRef.current?.value || "No Description",
+      description: descRef.current?.value || "No Description",
       status: statusRef.current?.value || "low",
-      duedate: dueDateRef.current?.value,
-      completed: isCompletedRef.current?.value,
-      isfavor: taskToEdit ? taskToEdit.isfavor : false,
-      modified: taskToEdit ? taskToEdit.modified : new Date().toISOString(),
+      duedate: dueDateRef.current?.value || new Date().toISOString(),
+      is_completed: isCompletedRef.current?.value,
+      is_favor: taskToEdit ? taskToEdit.is_favor : false,
+      last_modified: taskToEdit
+        ? taskToEdit.last_modified
+        : new Date().toISOString(),
     };
     taskInstance.color =
       taskInstance.status === "low"
@@ -56,18 +61,25 @@ export const TaskForm = ({ isVisible, onAnimationEnd, taskToEdit }) => {
         ? "orange"
         : "red";
     // update tasks array
+    console.log(taskInstance);
     if (taskToEdit) {
       updateTaskArray(
         tasks.map((task) =>
-          task.taskid === taskToEdit.taskid ? taskInstance : task
+          task.task_id === taskToEdit.task_id ? taskInstance : task
         )
       );
-      setTaskToEdit(null);
-      setIsEditing(false);
     } else {
       addTask(taskInstance);
     }
+
+    setIsEditing(false);
     setIsFormVisible(false);
+    if (taskToEdit) {
+      setTaskToEdit(null);
+      await updateTask(taskInstance);
+    } else {
+      await insertTask(taskInstance);
+    }
     clearRefValues();
   };
   return (
