@@ -74,7 +74,7 @@ function Login() {
         body: JSON.stringify(data),
         credentials: "include",
       });
-
+      console.log(response);
       const result = await response.json();
       console.log(response);
       if (!response.ok) {
@@ -96,7 +96,7 @@ function Login() {
         setIsLoginFormVisible(false);
       }, 1000);
     } catch (err) {
-      setMessage({ hasError: true, content: err.message });
+      setMessage({ hasError: true, content: "Something went wrong!" });
       console.log(err.message);
     }
   };

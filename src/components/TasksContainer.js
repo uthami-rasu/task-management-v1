@@ -4,16 +4,16 @@ import { FilterBtns } from "../Utils/constants";
 import { Star, Edit, Trash2 } from "lucide-react";
 import useTasks from "../context/usertasks";
 import { useUserContext } from "../context/usercontext";
-import { fadeOut } from "./StyledComponents/TaskFormStyles";
 import { TaskForm } from "./Forms/TaskForm";
 import {
   MainContentStyle,
   TaskContainerStyle,
   CartStyle,
 } from "./StyledComponents/MainContentStyles";
-import { ShimmerCard, ShimmerMainContent } from "./ShimmerUi";
-import useFetchTasks from "../Hooks/useFetchTasks";
+import { ShimmerMainContent } from "./ShimmerUi";
 import { removeTask } from "./Api/deleteTask";
+
+import { BACKEND_ENDPOINT } from "../Utils/constants";
 function MainContent() {
   let [processedTasks, setProcessedTasks] = useState([]);
   let [filters, setFilters] = useState({
@@ -53,15 +53,21 @@ function MainContent() {
   }, []);
 
   const fetchTasks = async () => {
-    setLoading(true);
-    let response = await fetch(
-      "https://expert-spork-g4qp7v7xvqgv3xj7-8000.app.github.dev/api/tasks/"
-    );
+    try {
+      setLoading(true);
+      let response = await fetch(BACKEND_ENDPOINT + "/api/tasks/");
 
-    let data = await response.json();
-    console.log(data);
-    updateTaskArray(data.Test);
-    setLoading(false);
+      if (!response.ok) {
+        throw new Error("Something went Wrong");
+      }
+
+      let data = await response.json();
+      console.log(data);
+      updateTaskArray(data.Test);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
   };
   const handleDeleteTask = async (id) => {
     updateTaskArray(tasks.filter((task, idx) => task.task_id !== id));

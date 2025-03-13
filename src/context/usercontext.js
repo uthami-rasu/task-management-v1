@@ -21,8 +21,6 @@ export function UserContextProvider({ children }) {
 
   const navigate = useNavigate();
 
-  const BASE_URL = "https://expert-spork-g4qp7v7xvqgv3xj7.github.dev"; //"https://backend-fastapi-3qe5.onrender.com";
-
   const location = useLocation();
 
   const toggleStatus = () => {
@@ -66,7 +64,6 @@ export function UserContextProvider({ children }) {
         clientToken,
         setClientToken,
         navigate,
-        BASE_URL,
         location,
         toggleMenu,
         setToggleMenu,

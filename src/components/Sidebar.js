@@ -9,7 +9,7 @@ import {
   X as Close,
   ChartNoAxesCombined,
 } from "lucide-react";
-import { ProfileSignOut } from "./Analytics";
+import { ProfileSignOut } from "./StyledComponents/ProfileStyles";
 import { useUserContext } from "../context/usercontext";
 import { useEffect } from "react";
 import { NavbarStyle } from "./StyledComponents/NavbarStyles";
