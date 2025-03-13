@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { transform } from "typescript";
+import {BACKEND_ENDPOINT} from "../Utils/constants";
 import { useUserContext } from "../context/usercontext";
 import { useEffect } from "react";
 import useTasks from "../context/usertasks";
@@ -17,7 +17,6 @@ function Login() {
     setIsLoginFormVisible,
     loginStatus,
     navigate,
-    BASE_URL,
   } = useUserContext();
   const { setIsFormVisible } = useTasks();
   const {
@@ -38,15 +37,16 @@ function Login() {
   const fetchUser = async () => {
     try {
       setLoading(true);
-      const res = await fetch(BASE_URL + "/auth/me", {
+      const res = await fetch(BACKEND_ENDPOINT + "/auth/me", {
         method: "GET",
         credentials: "include",
         mode: "cors",
       });
-      const data = await res.json();
-      setUserName(data?.user || "Buddy");
+
       if (res.ok) {
         setLoginStatus(true);
+        const data = await res.json();
+        setUserName(data?.user || "Buddy");
 
         navigate("/");
         return;
@@ -68,7 +68,7 @@ function Login() {
     setMessage({ ...message, content: "Please wait.." });
 
     try {
-      const response = await fetch(BASE_URL + "/auth/login", {
+      const response = await fetch(BACKEND_ENDPOINT + "/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

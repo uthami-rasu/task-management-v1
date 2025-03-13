@@ -10,23 +10,13 @@ export const TaskProvider = ({ children }) => {
   const [processedTasks, setProcessedTasks] = useState([]);
 
   const updateTaskArray = (taskUpdated) => {
+    console.log(taskUpdated, "updateTaskArray");
     setTasks([...taskUpdated]);
   };
 
   const addTask = (task) => {
     setTasks([...tasks, task]);
   };
-
-  const { activeTasks, completedTasks } = useMemo(() => {
-    return tasks.reduce(
-      (acc, t) => {
-        if (t.is_completed === "no") acc.activeTasks += 1;
-        if (t.is_completed === "yes") acc.completedTasks += 1;
-        return acc;
-      },
-      { activeTasks: 0, completedTasks: 0 }
-    );
-  }, [tasks]);
 
   return (
     <TaskContext.Provider
@@ -40,8 +30,7 @@ export const TaskProvider = ({ children }) => {
         setTaskToEdit,
         isEditing,
         setIsEditing,
-        activeTasks,
-        completedTasks,
+
         processedTasks,
         setProcessedTasks,
       }}

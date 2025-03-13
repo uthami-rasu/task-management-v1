@@ -34,7 +34,7 @@ export const TaskForm = ({ isVisible, onAnimationEnd, taskToEdit }) => {
       descRef.current.value = taskToEdit.description;
       statusRef.current.value = taskToEdit.status;
       dueDateRef.current.value = taskToEdit.duedate;
-      isCompletedRef.current.value = taskToEdit.is_completed ? "yes" : "no";
+      isCompletedRef.current.value = taskToEdit.is_completed;
     } else {
       clearRefValues();
     }
@@ -54,6 +54,7 @@ export const TaskForm = ({ isVisible, onAnimationEnd, taskToEdit }) => {
         ? taskToEdit.last_modified
         : new Date().toISOString(),
     };
+
     taskInstance.color =
       taskInstance.status === "low"
         ? "blue"
@@ -61,7 +62,7 @@ export const TaskForm = ({ isVisible, onAnimationEnd, taskToEdit }) => {
         ? "orange"
         : "red";
     // update tasks array
-    console.log(taskInstance);
+    console.log(taskInstance, "TI");
     if (taskToEdit) {
       updateTaskArray(
         tasks.map((task) =>
@@ -76,6 +77,12 @@ export const TaskForm = ({ isVisible, onAnimationEnd, taskToEdit }) => {
     setIsFormVisible(false);
     if (taskToEdit) {
       setTaskToEdit(null);
+
+      updateTaskArray(
+        tasks.map((t) =>
+          t.task_id === taskInstance.task_id ? { ...t, ...taskInstance } : t
+        )
+      );
       await updateTask(taskInstance);
     } else {
       await insertTask(taskInstance);
@@ -117,7 +124,9 @@ export const TaskForm = ({ isVisible, onAnimationEnd, taskToEdit }) => {
               Completed
             </span>
             <select ref={isCompletedRef}>
-              <option value={"no"}>No</option>
+              <option value={"no"} defaultChecked>
+                No
+              </option>
               <option value={"yes"}>Yes</option>
             </select>
           </div>

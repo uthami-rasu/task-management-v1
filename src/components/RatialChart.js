@@ -11,6 +11,7 @@ import "./styles/RadialChart.css";
 import { ChartTooltip, ChartTooltipContent } from "./CustomTooltip";
 
 import useTasks from "../context/usertasks";
+import useTaskDetails from "../Hooks/useTaskDetails";
 const chartData = [{ month: "January", desktop: 1260, mobile: 570 }];
 const chartConfig = {
   desktop: {
@@ -23,7 +24,8 @@ const chartConfig = {
   },
 };
 export function RadialChart() {
-  const { tasks, completedTasks, activeTasks } = useTasks();
+  const { tasks } = useTasks();
+  const [activeTasks, completedTasks] = useTaskDetails();
   const tasksTotal = tasks.length;
 
   const chartData = [

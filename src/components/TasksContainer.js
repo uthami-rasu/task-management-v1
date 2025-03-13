@@ -14,6 +14,7 @@ import { ShimmerMainContent } from "./ShimmerUi";
 import { removeTask } from "./Api/deleteTask";
 
 import { BACKEND_ENDPOINT } from "../Utils/constants";
+import FavouriteTask from "./Api/favorTask";
 function MainContent() {
   let [processedTasks, setProcessedTasks] = useState([]);
   let [filters, setFilters] = useState({
@@ -80,12 +81,14 @@ function MainContent() {
     setTaskToEdit(task);
   };
 
-  const handleIsFavor = (taskid) => {
+  const handleIsFavor = (taskid, isfavor) => {
     updateTaskArray(
       tasks.map((t) =>
-        t.task_id === taskid ? { ...t, is_favor: t.is_favor ? false : true } : t
+        t.task_id === taskid ? { ...t, is_favor: !isfavor } : t
       )
     );
+
+    FavouriteTask(taskid, isfavor);
   };
 
   if (!loginStatus) {
@@ -138,7 +141,9 @@ function MainContent() {
                   {task.status.charAt(0).toUpperCase() + task.status.slice(1)}
                 </p>
                 <div className="grps">
-                  <button onClick={() => handleIsFavor(task.task_id)}>
+                  <button
+                    onClick={() => handleIsFavor(task.task_id, task.is_favor)}
+                  >
                     <Star
                       size={20}
                       fill={task.is_favor ? "yellow" : "grey"}

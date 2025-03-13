@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { transform } from "typescript";
 import { useUserContext } from "../context/usercontext";
-
+import { BACKEND_ENDPOINT } from "../Utils/constants";
 function Register() {
   const {
     loginStatus,
@@ -15,7 +15,6 @@ function Register() {
     userCredentials,
     setUserCredentials,
     navigate,
-    BASE_URL,
   } = useUserContext();
   const {
     register,
@@ -34,7 +33,7 @@ function Register() {
     setMessage({ ...message, content: "Please wait.." });
 
     try {
-      const response = await fetch(BASE_URL + "/api/v1/register-user", {
+      const response = await fetch(BACKEND_ENDPOINT + "/api/v1/register-user", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

@@ -5,9 +5,12 @@ import useTasks from "../context/usertasks";
 import { useUserContext } from "../context/usercontext";
 import { Menu, SquarePlus } from "lucide-react";
 import { HeaderStyle } from "./StyledComponents/HeaderStyles";
+import useTaskDetails from "../Hooks/useTaskDetails";
 // core developement
 export default function Header() {
-  let { isFormVisible, setIsFormVisible, activeTasks } = useTasks();
+  let { isFormVisible, setIsFormVisible } = useTasks();
+
+  const [activeTasks] = useTaskDetails();
 
   let { loginStatus, userName, navigate, toggleMenu, setToggleMenu, location } =
     useUserContext();
