@@ -12,7 +12,7 @@ import {
 } from "../components/StyledComponents/MainContentStyles";
 import { Star, Edit, Trash2 } from "lucide-react";
 import { useUserContext } from "../context/usercontext";
-
+import {ShimmerMainContent} from "../components/ShimmerUi";
 import { BACKEND_ENDPOINT } from "../Utils/constants";
 import FavouriteTask from "../components/Api/favorTask";
 import { removeTask } from "../components/Api/deleteTask";
@@ -44,23 +44,31 @@ function DynamicMainContent({ cType }) {
   };
   useEffect(() => {
     fetchTasks();
-  }, []);
+    console.log(loading);
+  }, [cType]);
 
   const fetchTasks = async () => {
     try {
       setLoading(true);
-      let response = await fetch(BACKEND_ENDPOINT + "/api/tasks/");
+      let response = await fetch(BACKEND_ENDPOINT + "/api/tasks",{
+        method:"GET",
+        credentials:"include",
+        mode:"cors"
+      });
 
       if (!response.ok) {
+        
         throw new Error("Something went Wrong");
+        
       }
 
       let data = await response.json();
 
-      updateTaskArray(data.Test);
+      updateTaskArray(data?.data);
       setLoading(false);
     } catch (err) {
       console.log(err);
+     
     }
   };
   useEffect(() => {
@@ -123,7 +131,7 @@ function DynamicMainContent({ cType }) {
     return;
   }
 
-  return loading ? (
+  return loading  ? (
     <ShimmerMainContent />
   ) : (
     <MainContentStyle>

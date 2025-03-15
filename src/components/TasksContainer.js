@@ -60,18 +60,22 @@ function MainContent() {
   const fetchTasks = async () => {
     try {
       setLoading(true);
-      let response = await fetch(BACKEND_ENDPOINT + "/api/tasks/");
+      let response = await fetch(BACKEND_ENDPOINT + "/api/tasks", {
+        method: "GET",
+        credentials: "include",
+      });
 
       if (!response.ok) {
         throw new Error("Something went Wrong");
       }
 
-      let data = await response.json();
+      let result = await response.json();
 
-      updateTaskArray(data.Test);
+      updateTaskArray(result?.data);
       setLoading(false);
     } catch (err) {
       console.log(err);
+      
     }
   };
   const handleDeleteTask = async (id) => {
