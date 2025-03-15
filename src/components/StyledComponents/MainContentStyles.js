@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const MainContentStyle = styled.div`
   grid-area: main;
-  background: #ecebde;
+  background: #eaeaea;
   padding: 0.5rem;
   border-radius: 0.3rem;
   // border: 1px solid #000;
@@ -60,7 +60,7 @@ export const TaskContainerStyle = styled.div`
 export const CartStyle = styled.div`
   padding: 0.5rem;
   box-shadow: 0 0 1px #bbb;
-  background: #fff;
+  background: #f8f9fa;
   display: grid;
   grid-template-rows: 2rem 4rem 1fr;
   border-radius: 0.4rem;

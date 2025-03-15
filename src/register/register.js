@@ -119,6 +119,7 @@ function Register() {
 
 const styles = {
   container: {
+    borderRadius: "10px",
     maxWidth: "400px",
     width: "350px",
     margin: "auto",
@@ -130,7 +131,7 @@ const styles = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    boxShadow: "0 4px 10px grey",
+    boxShadow: "0 0px 6px #ccc",
   },
   heading: { fontSize: "24px", marginBottom: "10px" },
   form: { display: "flex", flexDirection: "column", gap: "10px" },

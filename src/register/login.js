@@ -6,13 +6,8 @@ import { useEffect } from "react";
 import useTasks from "../context/usertasks";
 function Login() {
   const {
-    isLoginFormVisible,
-    toggleStatus,
     setLoading,
-    userName,
     setUserName,
-    userCredentials,
-    setUserCredentials,
     setLoginStatus,
     setIsLoginFormVisible,
     loginStatus,
@@ -155,6 +150,7 @@ function Login() {
 
 const styles = {
   container: {
+    borderRadius: "10px",
     maxWidth: "400px",
     width: "350px",
     margin: "auto",
@@ -166,7 +162,7 @@ const styles = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    boxShadow: "0 4px 10px grey",
+    boxShadow: "0 0px 10px #ccc",
     // display: "none", //mobile
   },
   heading: { fontSize: "24px", marginBottom: "10px" },

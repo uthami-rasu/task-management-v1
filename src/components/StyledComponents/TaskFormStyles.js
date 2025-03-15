@@ -30,7 +30,8 @@ const TaskFormStyle = styled.div`
   transform: translate(-50%, -50%);
   height: 430px;
   width: 320px;
-  border-radius: 0.4rem;
+  border-radius: 0.8rem;
+  background: #eaeaea;
   padding: 0.5rem;
   transition: opacity 0.3s ease, transform 0.3s ease;
   border: 0.5px solid #bbb;

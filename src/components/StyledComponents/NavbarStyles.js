@@ -8,6 +8,7 @@ export const NavbarStyle = styled.div`
   align-items: center;
   flex-grow: 1;
   gap: 0.5rem;
+  background: #f8f9fa;
 
   .nav-li a.active .home-icon {
     stroke: blue;
