@@ -26,6 +26,7 @@ function MainContent() {
     isFormVisible,
     setIsFormVisible,
     tasks,
+    setTasks,
     updateTaskArray,
     taskToEdit,
     setTaskToEdit,
@@ -78,10 +79,10 @@ function MainContent() {
     }
   };
   const handleDeleteTask = (id) => {
-    updateTaskArray(tasks.filter((task, idx) => task.task_id !== id));
-
+    setTasks((prevTasks) => prevTasks.filter((task) => task.task_id !== id));
     removeTask(id);
   };
+
   const handleTaskEdit = (task) => {
     setIsFormVisible(true);
     setIsEditing(true);

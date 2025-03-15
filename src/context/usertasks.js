@@ -22,6 +22,7 @@ export const TaskProvider = ({ children }) => {
     <TaskContext.Provider
       value={{
         tasks,
+        setTasks,
         addTask,
         isFormVisible,
         setIsFormVisible,
