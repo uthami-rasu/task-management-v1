@@ -3,7 +3,7 @@ import { BACKEND_ENDPOINT } from "../../Utils/constants";
 export const removeTask = async (id) => {
   try {
     console.log("Try to delete");
-    const response = await fetch(BACKEND_ENDPOINT + "/api/tasks/", {
+    const response = await fetch("/api/tasks", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

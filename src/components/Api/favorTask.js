@@ -11,14 +11,13 @@ import { BACKEND_ENDPOINT } from "../../Utils/constants";
 const FavouriteTask = async (taskid, isfavor) => {
   console.log("try to update(fav)");
   try {
-    const response = await fetch(BACKEND_ENDPOINT + "/api/tasks/modify", {
+    const response = await fetch("/api/tasks/modify", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
       body: JSON.stringify({ task_id: taskid, is_favor: !isfavor }),
-      mode: "cors",
       credentials: "include",
     });
 

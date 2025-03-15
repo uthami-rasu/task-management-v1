@@ -3,7 +3,7 @@ import { BACKEND_ENDPOINT } from "../../Utils/constants";
 export const insertTask = async (task) => {
   console.log("Try to  Inserting");
   try {
-    let response = await fetch(BACKEND_ENDPOINT + "/api/tasks/", {
+    let response = await fetch("/api/tasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

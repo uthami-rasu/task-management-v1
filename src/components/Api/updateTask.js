@@ -3,7 +3,7 @@ import useTasks from "../../context/usertasks";
 export const updateTask = async (task) => {
   console.log("Try to update");
   try {
-    const response = await fetch(BACKEND_ENDPOINT + "/api/tasks/modify", {
+    const response = await fetch("/api/tasks/modify", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
