@@ -2,6 +2,7 @@ import { useState } from "react";
 import { React, createContext, useContext } from "react";
 
 import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
+import { BACKEND_ENDPOINT } from "../Utils/constants";
 const UserContext = createContext();
 
 export function UserContextProvider({ children }) {
@@ -32,7 +33,7 @@ export function UserContextProvider({ children }) {
 
   const deleteCookies = async () => {
     try {
-      const res = await fetch(BASE_URL + "/auth/logout", {
+      const res = await fetch(BACKEND_ENDPOINT + "/auth/logout", {
         method: "POST",
         credentials: "include",
       });

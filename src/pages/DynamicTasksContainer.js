@@ -13,8 +13,12 @@ import {
 import { Star, Edit, Trash2 } from "lucide-react";
 import { useUserContext } from "../context/usercontext";
 
+import { BACKEND_ENDPOINT } from "../Utils/constants";
+import FavouriteTask from "../components/Api/favorTask";
+import { removeTask } from "../components/Api/deleteTask";
+import { updateTask } from "../components/Api/updateTask";
+import { addTask } from "../components/Api/insertTask";
 function DynamicMainContent({ cType }) {
-  let [processedTasks, setProcessedTasks] = useState([]);
   let [filters, setFilters] = useState({
     type: "all",
     index: 0,
@@ -30,41 +34,53 @@ function DynamicMainContent({ cType }) {
     setTaskToEdit,
     isEditing,
     setIsEditing,
+    processedTasks,
+    setProcessedTasks,
   } = useTasks();
 
   const { loginStatus, loading, setLoading } = useUserContext();
   const handleTaskBtn = () => {
     setIsFormVisible(!isFormVisible);
   };
-
-  const [isMounted, setIsMounted] = useState(false);
-
   useEffect(() => {
-    if (isFormVisible) {
-      setIsMounted(true);
-      // console.log(fadeOut.toString());
-    }
-  }, [isFormVisible]);
+    fetchTasks();
+  }, []);
 
+  const fetchTasks = async () => {
+    try {
+      setLoading(true);
+      let response = await fetch(BACKEND_ENDPOINT + "/api/tasks/");
+
+      if (!response.ok) {
+        throw new Error("Something went Wrong");
+      }
+
+      let data = await response.json();
+
+      updateTaskArray(data.Test);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     setLoading(true);
-
     const results = tasks
       .filter((task) => {
         switch (cType) {
           case "Pending":
-            return task.completed === "no";
+            return task.is_completed === "no";
 
           case "Completed":
-            return task.completed === "yes";
+            return task.is_completed === "yes";
 
           case "Favorite":
-            return task.isfavor === true;
+            return task?.is_favor === true;
 
           case "Overdue":
             return (
               Date.now() > new Date(task.duedate).getTime() &&
-              task.completed === "no"
+              task.is_completed === "no"
             );
 
           default:
@@ -74,28 +90,18 @@ function DynamicMainContent({ cType }) {
       .filter((task) => filters.type === "all" || task.status === filters.type)
       .map((task) => ({
         ...task,
-        timeAgo: timeAgo(task.modified), // Compute only once per render cycle
+        timeAgo: timeAgo(task?.last_modified), // Compute only once per render cycle
       }));
-    const timer = setTimeout(() => {
-      setProcessedTasks(results);
-    }, 400);
+
+    setProcessedTasks(results);
 
     setLoading(false);
-    return () => clearTimeout(timer);
   }, [tasks, filters.type, cType]);
 
-  // Handle animation end for unmounting
-  const handleAnimationEnd = (event) => {
-    // console.log(event.animationName);
-    if (!isFormVisible && event.animationName === fadeOut.getName()) {
-      setIsMounted(false); // Only unmount after fadeOut animation finishes
-    }
-  };
+  const handleDeleteTask = async (id) => {
+    updateTaskArray(tasks.filter((task, idx) => task.task_id !== id));
 
-  const handleDeleteTask = (id) => {
-    // console.log("click");
-    // alert("click");
-    updateTaskArray(tasks.filter((task, idx) => task.taskid !== id));
+    await removeTask(id);
   };
   const handleTaskEdit = (task) => {
     setIsFormVisible(true);
@@ -103,14 +109,19 @@ function DynamicMainContent({ cType }) {
     setTaskToEdit(task);
   };
 
-  const handleIsFavor = (taskid) => {
+  const handleIsFavor = async (taskid, isfavor) => {
     updateTaskArray(
       tasks.map((t) =>
-        t.taskid === taskid ? { ...t, isfavor: t.isfavor ? false : true } : t
+        t.task_id === taskid ? { ...t, is_favor: !isfavor } : t
       )
     );
-    // console.log(tasks);
+
+    await FavouriteTask(taskid, isfavor);
   };
+  if (!loginStatus) {
+    navigate("auth/login");
+    return;
+  }
 
   return loading ? (
     <ShimmerMainContent />
@@ -144,29 +155,31 @@ function DynamicMainContent({ cType }) {
       </div>
 
       <TaskContainerStyle id={"task-container"}>
-        {processedTasks &&
+        {processedTasks.length > 0 &&
           processedTasks.map((task, idx) => {
             return (
-              <CartStyle key={task.taskid}>
+              <CartStyle key={task.task_id}>
                 <h1 className="cart-title">{task.title}</h1>
-                <p className="cart-desc">{task.desc}</p>
+                <p className="cart-desc">{task.description}</p>
                 <div className="cart-footer">
                   <p>{task.timeAgo}</p>
                   <p style={{ color: task.color }}>
                     {task.status.charAt(0).toUpperCase() + task.status.slice(1)}
                   </p>
                   <div className="grps">
-                    <button onClick={() => handleIsFavor(task.taskid)}>
+                    <button
+                      onClick={() => handleIsFavor(task.task_id, task.is_favor)}
+                    >
                       <Star
                         size={20}
-                        fill={task.isfavor ? "yellow" : "grey"}
+                        fill={task.is_favor ? "yellow" : "grey"}
                         stroke="grey"
                       />
                     </button>
                     <button onClick={() => handleTaskEdit(task)}>
                       <Edit size={20} stroke={"blue"} />
                     </button>
-                    <button onClick={() => handleDeleteTask(task.taskid)}>
+                    <button onClick={() => handleDeleteTask(task.task_id)}>
                       <Trash2 fill="red" stroke={"#000"} size={20} />
                     </button>
                   </div>
@@ -188,17 +201,15 @@ function DynamicMainContent({ cType }) {
             }}
             onClick={handleTaskBtn}
           >
-            Add Task
+            <p> Add Task</p>
+            {processedTasks.length === 0 && (
+              <span style={{ fontSize: "15px" }}>(Nothing to Display)</span>
+            )}
           </button>
         </CartStyle>
       </TaskContainerStyle>
-      {isMounted && (
-        <TaskForm
-          isVisible={isFormVisible}
-          onAnimationEnd={handleAnimationEnd}
-          isEditing={isEditing}
-          taskToEdit={taskToEdit}
-        >
+      {isFormVisible && (
+        <TaskForm is_visible={isFormVisible} task_to_edit={taskToEdit}>
           Task Form Content
         </TaskForm>
       )}

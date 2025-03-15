@@ -5,7 +5,10 @@ import { ButtonStyle } from "../StyledComponents/UtilsStyles";
 import { generateId } from "../../Utils/utils";
 import { insertTask } from "../Api/insertTask";
 import { updateTask } from "../Api/updateTask";
-export const TaskForm = ({ isVisible, onAnimationEnd, taskToEdit }) => {
+export const TaskForm = ({
+  is_visible: isVisible,
+  task_to_edit: taskToEdit,
+}) => {
   let {
     updateTaskArray,
     isEditing,
@@ -90,7 +93,7 @@ export const TaskForm = ({ isVisible, onAnimationEnd, taskToEdit }) => {
     clearRefValues();
   };
   return (
-    <TaskFormStyle isVisible={isVisible} onAnimationEnd={onAnimationEnd}>
+    <TaskFormStyle isVisible={isVisible}>
       <form method="post" onSubmit={handleFormSubmit}>
         <div className="frm-grp">
           <label>Title</label>

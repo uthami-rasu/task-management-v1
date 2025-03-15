@@ -25,8 +25,8 @@ const useTaskDetails = () => {
     setTaskDetails(result);
   }, [tasks]);
 
-  console.log("useTaskDetails", taskDetails);
-  console.log(tasks, "tasks");
+  // console.log("useTaskDetails", taskDetails);
+  // console.log(tasks, "tasks");
   return [taskDetails.activeTasks, taskDetails.completedTasks];
 };
 

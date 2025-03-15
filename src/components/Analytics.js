@@ -12,16 +12,18 @@ import {
   ProfileAnalytics,
   ProfileSignOut,
 } from "./StyledComponents/ProfileStyles";
+import useTaskDetails from "../Hooks/useTaskDetails";
 
 function Profile() {
-  let { completedTasks, activeTasks, tasks } = useTasks();
+  let { tasks } = useTasks();
 
+  const [activeTasks, completedTasks] = useTaskDetails();
+
+  console.log(activeTasks, completedTasks);
   let {
     userName,
     loginStatus,
     loading,
-    setLoginStatus,
-    navigate,
     deleteCookies: logout,
   } = useUserContext();
 
@@ -62,21 +64,21 @@ function Profile() {
                   <p>In Progress:</p>
                   <p className="stat-value">
                     <span className="stat-bar blue"></span>
-                    <span className="number">{activeTasks}</span>
+                    <span className="number">{activeTasks ?? 0}</span>
                   </p>
                 </div>
                 <div className="stat-box box-3">
                   <p>Open Tasks:</p>
                   <p className="stat-value">
                     <span className="stat-bar orange"></span>
-                    <span className="number">{activeTasks}</span>
+                    <span className="number">{activeTasks ?? 0}</span>
                   </p>
                 </div>
                 <div className="stat-box box-4">
                   <p>Completed:</p>
                   <p className="stat-value">
                     <span className="stat-bar green"></span>
-                    <span className="number">{completedTasks}</span>
+                    <span className="number">{completedTasks ?? 0}</span>
                   </p>
                 </div>
               </div>

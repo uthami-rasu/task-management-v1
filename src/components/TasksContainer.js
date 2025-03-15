@@ -16,7 +16,6 @@ import { removeTask } from "./Api/deleteTask";
 import { BACKEND_ENDPOINT } from "../Utils/constants";
 import FavouriteTask from "./Api/favorTask";
 function MainContent() {
-  let [processedTasks, setProcessedTasks] = useState([]);
   let [filters, setFilters] = useState({
     type: "all",
     index: 0,
@@ -32,6 +31,8 @@ function MainContent() {
     setTaskToEdit,
     isEditing,
     setIsEditing,
+    processedTasks,
+    setProcessedTasks,
   } = useTasks();
 
   let { loading, setLoading, loginStatus, navigate } = useUserContext();
@@ -40,6 +41,9 @@ function MainContent() {
   };
 
   useEffect(() => {
+    if (tasks.length === 0) {
+      return;
+    }
     const result = tasks
       .filter((task) => filters.type === "all" || task.status === filters.type)
       .map((task) => ({
@@ -63,7 +67,7 @@ function MainContent() {
       }
 
       let data = await response.json();
-      console.log(data);
+
       updateTaskArray(data.Test);
       setLoading(false);
     } catch (err) {
@@ -81,14 +85,14 @@ function MainContent() {
     setTaskToEdit(task);
   };
 
-  const handleIsFavor = (taskid, isfavor) => {
+  const handleIsFavor = async (taskid, isfavor) => {
     updateTaskArray(
       tasks.map((t) =>
         t.task_id === taskid ? { ...t, is_favor: !isfavor } : t
       )
     );
 
-    FavouriteTask(taskid, isfavor);
+    await FavouriteTask(taskid, isfavor);
   };
 
   if (!loginStatus) {
@@ -176,17 +180,16 @@ function MainContent() {
               }}
               onClick={handleTaskBtn}
             >
-              Add Task
+              <p> Add Task</p>
+              {processedTasks.length === 0 && (
+                <span style={{ fontSize: "15px" }}>(Nothing to Display)</span>
+              )}
             </button>
           </CartStyle>
         )}
       </TaskContainerStyle>
       {isFormVisible && (
-        <TaskForm
-          isVisible={isFormVisible}
-          isEditing={isEditing}
-          taskToEdit={taskToEdit}
-        >
+        <TaskForm is_visible={isFormVisible} task_to_edit={taskToEdit}>
           Task Form Content
         </TaskForm>
       )}

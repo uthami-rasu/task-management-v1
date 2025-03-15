@@ -30,7 +30,6 @@ export const TaskProvider = ({ children }) => {
         setTaskToEdit,
         isEditing,
         setIsEditing,
-
         processedTasks,
         setProcessedTasks,
       }}
