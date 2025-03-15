@@ -33,7 +33,7 @@ function VerifyEmail() {
 
     try {
       const response = await fetch(
-        "https://backend-fastapi-3qe5.onrender.com/auth/verify-email",
+        "/api/auth/verify-email",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

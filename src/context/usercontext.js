@@ -33,7 +33,7 @@ export function UserContextProvider({ children }) {
 
   const deleteCookies = async () => {
     try {
-      const res = await fetch(BACKEND_ENDPOINT + "/auth/logout", {
+      const res = await fetch("/api/auth/logout", {
         method: "POST",
         credentials: "include",
       });

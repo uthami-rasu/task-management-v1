@@ -50,7 +50,7 @@ function DynamicMainContent({ cType }) {
   const fetchTasks = async () => {
     try {
       setLoading(true);
-      let response = await fetch(BACKEND_ENDPOINT + "/api/tasks",{
+      let response = await fetch("/api/tasks/",{
         method:"GET",
         credentials:"include",
         mode:"cors"

@@ -33,7 +33,7 @@ function Register() {
     setMessage({ ...message, content: "Please wait.." });
 
     try {
-      const response = await fetch(BACKEND_ENDPOINT + "/api/v1/register-user", {
+      const response = await fetch("/api/auth/register-user", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

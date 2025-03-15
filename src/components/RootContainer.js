@@ -41,63 +41,6 @@ export default function Container() {
     return;
   }
 
-  // useEffect(() => {
-  //   if (
-  //     ["/auth/register", "/auth/login", "/verify-email"].includes(
-  //       window.location.pathname
-  //     )
-  //   ) {
-  //     return navigate(window.location.pathname);
-  //   }
-  //   if (localStorage.getItem("loginStatus")) {
-  //     setLoginStatus(true);
-
-  //     const storedUserName = localStorage.getItem("username");
-  //     if (!userName || userName === "Buddy") {
-  //       setUserName(storedUserName || "Guest"); // Fallback to "Guest" if username is null
-  //     }
-
-  //     return;
-  //   }
-  //   // const fetchUser = async () => {
-  //   //   try {
-  //   //     setLoading(true);
-  //   //     const res = await fetch(BASE_URL + "/auth/me", {
-  //   //       method: "GET",
-  //   //       credentials: "include",
-  //   //     });
-
-  //   //     const data = await res.json();
-  //   //     setUserName(data?.user || "Buddy");
-
-  //   //     if (res.ok) {
-  //   //       setLoginStatus(true);
-  //   //       if (window.location.pathname !== "/") {
-  //   //         navigate(window.location.pathname);
-  //   //       }
-  //   //     } else {
-  //   //       setLoginStatus(false);
-  //   //       setIsLoginFormVisible(true);
-  //   //       if (window.location.pathname !== "/auth/login") {
-  //   //         navigate("/auth/login");
-  //   //       }
-  //   //     }
-  //   //   } catch (err) {
-  //   //     console.error("Error fetching user:", err);
-  //   //     setLoginStatus(false);
-  //   //     setIsLoginFormVisible(true);
-  //   //     if (window.location.pathname !== "/auth/login") {
-  //   //       navigate("/auth/login");
-  //   //     }
-  //   //   } finally {
-  //   //     setLoading(false);
-  //   //   }
-  //   // };
-
-  //   // if (!localStorage.getItem("loginStatus")) {
-  //   //   fetchUser(); //mobile
-  //   // }
-  // }, [loginStatus, navigate, location.pathname]);
 
   return (
     <ContainerStyle

@@ -37,7 +37,7 @@ function Login() {
   const fetchUser = async () => {
     try {
       setLoading(true);
-      const res = await fetch(BACKEND_ENDPOINT + "/auth/me", {
+      const res = await fetch("/api/auth/me", {
         method: "GET",
         credentials: "include",
         mode: "cors",
@@ -68,7 +68,7 @@ function Login() {
     setMessage({ ...message, content: "Please wait.." });
 
     try {
-      const response = await fetch("/auth/login", {
+      const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
