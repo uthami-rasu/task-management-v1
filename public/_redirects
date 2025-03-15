@@ -1,4 +1,0 @@
-/api/auth/* https://taskease-backend.onrender.com/api/auth/:splat 200!
-/api/tasks/* https://taskease-backend.onrender.com/api/tasks/:splat 200!
-/api/tasks https://taskease-backend.onrender.com/api/tasks 200!
-/* /index.html 200

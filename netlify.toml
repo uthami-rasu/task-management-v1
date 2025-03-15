@@ -1,0 +1,25 @@
+[[redirects]]
+  from = "/api/auth/*"
+  to = "https://taskease-backend.onrender.com/api/auth/:splat"
+  status = 200
+  force = true
+  headers = {Access-Control-Allow-Origin = "https://razz-dev.netlify.app", Access-Control-Allow-Credentials = "true"}
+
+[[redirects]]
+  from = "/api/tasks/*"
+  to = "https://taskease-backend.onrender.com/api/tasks/:splat"
+  status = 200
+  force = true
+  headers = {Access-Control-Allow-Origin = "https://razz-dev.netlify.app", Access-Control-Allow-Credentials = "true"}
+
+[[redirects]]
+  from = "/api/tasks"
+  to = "https://taskease-backend.onrender.com/api/tasks"
+  status = 200
+  force = true
+  headers = {Access-Control-Allow-Origin = "https://razz-dev.netlify.app", Access-Control-Allow-Credentials = "true"}
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
