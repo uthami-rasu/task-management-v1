@@ -138,38 +138,39 @@ function MainContent() {
       </div>
 
       <TaskContainerStyle id={"task-container"}>
-        {processedTasks.map((task, idx) => {
-          return (
-            <CartStyle key={task.task_id}>
-              <h1 className="cart-title">{task.title}</h1>
-              <p className="cart-desc">{task.description}</p>
-              <div className="cart-footer">
-                <p>{task.timeAgo}</p>
-                <p style={{ color: task.color }}>
-                  {task.status.charAt(0).toUpperCase() + task.status.slice(1)}
-                </p>
+        {processedTasks.length > 0 &&
+          processedTasks.map((task, idx) => {
+            return (
+              <CartStyle key={task.task_id}>
+                <h1 className="cart-title">{task.title}</h1>
+                <p className="cart-desc">{task.description}</p>
+                <div className="cart-footer">
+                  <p>{task.timeAgo}</p>
+                  <p style={{ color: task.color }}>
+                    {task.status.charAt(0).toUpperCase() + task.status.slice(1)}
+                  </p>
 
-                <div className="grps">
-                  <button
-                    onClick={() => handleIsFavor(task.task_id, task.is_favor)}
-                  >
-                    <Star
-                      size={20}
-                      fill={task.is_favor ? "yellow" : "grey"}
-                      stroke="grey"
-                    />
-                  </button>
-                  <button onClick={() => handleTaskEdit(task)}>
-                    <Edit size={20} stroke={"blue"} />
-                  </button>
-                  <button onClick={() => handleDeleteTask(task.task_id)}>
-                    <Trash2 fill="red" stroke={"#000"} size={20} />
-                  </button>
+                  <div className="grps">
+                    <button
+                      onClick={() => handleIsFavor(task.task_id, task.is_favor)}
+                    >
+                      <Star
+                        size={20}
+                        fill={task.is_favor ? "yellow" : "grey"}
+                        stroke="grey"
+                      />
+                    </button>
+                    <button onClick={() => handleTaskEdit(task)}>
+                      <Edit size={20} stroke={"blue"} />
+                    </button>
+                    <button onClick={() => handleDeleteTask(task.task_id)}>
+                      <Trash2 fill="red" stroke={"#000"} size={20} />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </CartStyle>
-          );
-        })}
+              </CartStyle>
+            );
+          })}
         {loginStatus && (
           <CartStyle border={"true"} className="last-card">
             <button
