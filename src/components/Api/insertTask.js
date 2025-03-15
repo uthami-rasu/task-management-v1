@@ -9,6 +9,7 @@ export const insertTask = async (task) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(task),
+      credentials: "include",
     });
     if (response.ok) {
       console.log("Task Inserted");

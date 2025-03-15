@@ -3,12 +3,13 @@ import useTasks from "../../context/usertasks";
 export const updateTask = async (task) => {
   console.log("Try to update");
   try {
-    const response = await fetch(BACKEND_ENDPOINT + "/api/tasks/", {
-      method: "PATCH",
+    const response = await fetch(BACKEND_ENDPOINT + "/api/tasks/modify", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(task),
+      credentials: "include",
     });
 
     if (response.ok) {

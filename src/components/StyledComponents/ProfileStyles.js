@@ -25,6 +25,7 @@ export const ProfileNameStyle = styled.div`
   justify-content: space-around;
   align-items: center;
   overflow: hidden;
+  width: 100%;
 
   @media (max-width: 550px) {
     width: 100%;

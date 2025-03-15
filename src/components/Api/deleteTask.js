@@ -9,6 +9,7 @@ export const removeTask = async (id) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ task_id: id }),
+      credentials: "include",
     });
 
     if (response.ok) {
