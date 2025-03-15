@@ -12,11 +12,9 @@ export const updateTask = async (task) => {
     });
 
     if (response.ok) {
-    
       const res = await response.json();
 
-      console.log("Task Updated!",res);
-      
+      console.log("Task Updated!", res);
     }
     console.log(response);
   } catch (err) {
