@@ -68,7 +68,7 @@ function Login() {
     setMessage({ ...message, content: "Please wait.." });
 
     try {
-      const response = await fetch(BACKEND_ENDPOINT + "/auth/login", {
+      const response = await fetch("/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
