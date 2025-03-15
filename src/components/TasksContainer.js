@@ -60,7 +60,7 @@ function MainContent() {
   const fetchTasks = async () => {
     try {
       setLoading(true);
-      let response = await fetch("/api/tasks", {
+      let response = await fetch(BACKEND_ENDPOINT + "/api/tasks", {
         method: "GET",
         credentials: "include",
       });
