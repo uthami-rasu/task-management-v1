@@ -43,7 +43,7 @@ function MainContent() {
 
   useEffect(() => {
     if (tasks.length === 0) {
-      return;
+      setProcessedTasks([]);
     }
     const result = tasks
       .filter((task) => filters.type === "all" || task.status === filters.type)
@@ -138,7 +138,7 @@ function MainContent() {
       </div>
 
       <TaskContainerStyle id={"task-container"}>
-        {processedTasks.length > 0 &&
+        {tasks.length > 0 &&
           processedTasks.map((task, idx) => {
             return (
               <CartStyle key={task.task_id}>
