@@ -77,10 +77,10 @@ function MainContent() {
       console.log(err);
     }
   };
-  const handleDeleteTask = async (id) => {
+  const handleDeleteTask = (id) => {
     updateTaskArray(tasks.filter((task, idx) => task.task_id !== id));
 
-    await removeTask(id);
+    removeTask(id);
   };
   const handleTaskEdit = (task) => {
     setIsFormVisible(true);
