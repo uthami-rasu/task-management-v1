@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import {BACKEND_ENDPOINT} from "../Utils/constants";
+import { BACKEND_ENDPOINT } from "../Utils/constants";
 import { useUserContext } from "../context/usercontext";
 import { useEffect } from "react";
 import useTasks from "../context/usertasks";
@@ -37,7 +37,7 @@ function Login() {
   const fetchUser = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/auth/me", {
+      const res = await fetch(BACKEND_ENDPOINT + "/api/auth/me", {
         method: "GET",
         credentials: "include",
         mode: "cors",

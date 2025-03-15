@@ -60,7 +60,7 @@ function MainContent() {
   const fetchTasks = async () => {
     try {
       setLoading(true);
-      let response = await fetch("/api/tasks/", {
+      let response = await fetch("/api/tasks", {
         method: "GET",
         credentials: "include",
       });
@@ -75,7 +75,6 @@ function MainContent() {
       setLoading(false);
     } catch (err) {
       console.log(err);
-      
     }
   };
   const handleDeleteTask = async (id) => {
@@ -148,6 +147,7 @@ function MainContent() {
                 <p style={{ color: task.color }}>
                   {task.status.charAt(0).toUpperCase() + task.status.slice(1)}
                 </p>
+
                 <div className="grps">
                   <button
                     onClick={() => handleIsFavor(task.task_id, task.is_favor)}
