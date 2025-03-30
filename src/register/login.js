@@ -4,6 +4,8 @@ import { BACKEND_ENDPOINT } from "../Utils/constants";
 import { useUserContext } from "../context/usercontext";
 import { useEffect } from "react";
 import useTasks from "../context/usertasks";
+
+import "../login.css";
 function Login() {
   const {
     setLoading,
@@ -101,7 +103,7 @@ function Login() {
   }
 
   return (
-    <div style={styles.container}>
+    <div style={styles.container} id="frm">
       <h2 style={styles.heading}>Login</h2>
       <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
         <input
@@ -147,51 +149,43 @@ function Login() {
     </div>
   );
 }
-
 const styles = {
   container: {
     borderRadius: "10px",
-    maxWidth: "400px",
-    width: "350px",
+    maxWidth: "30%", // Increased width
+    width: "95%", // Responsive width
+    minWidth: "380px",
     margin: "auto",
     textAlign: "center",
-    padding: "20px",
+    padding: "30px", // Increased padding
     height: "auto",
-    // backgroundColor: "red",
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    boxShadow: "0 0px 10px #ccc",
-    // display: "none", //mobile
+    boxShadow: "0 0px 15px rgba(0, 0, 0, 0.2)", // Softer shadow
   },
-  heading: { fontSize: "24px", marginBottom: "10px" },
-  form: { display: "flex", flexDirection: "column", gap: "10px" },
+  heading: { fontSize: "28px", marginBottom: "15px" },
+  form: { display: "flex", flexDirection: "column", gap: "15px" }, // Increased gap
   input: {
-    padding: "10px",
-    fontSize: "16px",
-    borderRadius: "5px",
+    padding: "12px",
+    fontSize: "18px", // Increased font size
+    borderRadius: "8px",
     border: "1px solid #bbb",
     width: "100%",
-  },
-  toggle: {
-    position: "absolute",
-    right: "10px",
-    top: "50%",
-    transform: "translateY(-50%)",
-    cursor: "pointer",
   },
   button: {
     backgroundColor: "#2ECC71",
     color: "#fff",
-    padding: "10px",
-    borderRadius: "5px",
+    padding: "12px",
+    borderRadius: "8px",
     cursor: "pointer",
+    fontSize: "18px", // Increased font size
   },
-  link: { marginTop: "10px", fontSize: "14px" },
+  link: { marginTop: "15px", fontSize: "16px" },
   clickable: { color: "#2ECC71", cursor: "pointer", fontWeight: "bold" },
-  error: { color: "red", fontSize: "12px" },
-  success: { color: "green", fontSize: "14px" },
+  error: { color: "red", fontSize: "14px" },
+  success: { color: "green", fontSize: "16px" },
 };
 
 export default Login;

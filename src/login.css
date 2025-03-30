@@ -1,0 +1,23 @@
+#frm {
+  background: rgb(247, 145, 206);
+
+  background: linear-gradient(
+    90deg,
+    rgb(255, 147, 212) 0%,
+    rgb(252, 166, 129) 100%
+  );
+
+  background: -moz-linear-gradient(
+    90deg,
+    hsla(324, 91%, 46%, 1) 0%,
+    hsla(18, 100%, 49%, 1) 100%
+  );
+
+  background: -webkit-linear-gradient(
+    90deg,
+    rgb(249, 142, 206) 0%,
+    rgb(253, 169, 133) 100%
+  );
+
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#E20B8C", endColorstr="#F84B00", GradientType=1 );
+}
