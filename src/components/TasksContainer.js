@@ -5,6 +5,7 @@ import { Star, Edit, Trash2 } from "lucide-react";
 import useTasks from "../context/usertasks";
 import { useUserContext } from "../context/usercontext";
 import { TaskForm } from "./Forms/TaskForm";
+
 import {
   MainContentStyle,
   TaskContainerStyle,
@@ -15,6 +16,7 @@ import { removeTask } from "./Api/deleteTask";
 
 import { BACKEND_ENDPOINT } from "../Utils/constants";
 import FavouriteTask from "./Api/favorTask";
+import moment from "moment";
 function MainContent() {
   let [filters, setFilters] = useState({
     type: "all",
@@ -50,6 +52,9 @@ function MainContent() {
       .map((task) => ({
         ...task,
         timeAgo: timeAgo(task?.last_modified),
+        createDateFormat: moment(task.created_at).format(
+          "DD-MM-YYYY HH:mm:sss"
+        ),
       }));
     setProcessedTasks(result);
   }, [tasks, filters.type]);
@@ -144,8 +149,12 @@ function MainContent() {
               <CartStyle key={task.task_id}>
                 <h1 className="cart-title">{task.title}</h1>
                 <p className="cart-desc">{task.description}</p>
+                <p className="cart-created">
+                  some date shoudl display
+                  {/* {task?.createDateFormat} */}
+                </p>
                 <div className="cart-footer">
-                  <p>{task.timeAgo}</p>
+                  <p>{task.timeAgo}razz</p>
                   <p style={{ color: task.color }}>
                     {task.status.charAt(0).toUpperCase() + task.status.slice(1)}
                   </p>
