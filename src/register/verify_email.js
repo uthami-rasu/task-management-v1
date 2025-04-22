@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useUserContext } from "../context/usercontext";
@@ -12,8 +11,8 @@ function VerifyEmail() {
     formState: { errors },
   } = useForm();
 
-
-  const { clientToken, setClientToken, toggleStatus,navigate } = useUserContext();
+  const { clientToken, setClientToken, toggleStatus, navigate } =
+    useUserContext();
   const [searchParams] = useSearchParams();
   const [message, setMessage] = useState({ hasError: false, content: "" });
 
@@ -32,15 +31,12 @@ function VerifyEmail() {
     }
 
     try {
-      const response = await fetch(
-        "/api/auth/verify-email",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token: data.token.trim() }),
-          mode: "cors",
-        }
-      );
+      const response = await fetch("/api/auth/verify-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: data.token.trim() }),
+        mode: "cors",
+      });
       // console.log("RESPONSE:", response);
       let result;
       try {
@@ -76,7 +72,7 @@ function VerifyEmail() {
   };
 
   return (
-    <div style={styles.container}>
+    <div style={styles.container} id="frm">
       <h2 style={styles.heading}>Verify Email</h2>
       <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
         <input
@@ -102,12 +98,9 @@ function VerifyEmail() {
           {message.content}
         </p>
       )}
-       <p style={styles.link}>
+      <p style={styles.link}>
         Redirect to login page?
-        <span
-          onClick={() => navigate("/auth/login")}
-          style={styles.clickable}
-        >
+        <span onClick={() => navigate("/auth/login")} style={styles.clickable}>
           Login
         </span>
       </p>
