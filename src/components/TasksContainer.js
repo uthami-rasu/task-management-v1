@@ -149,12 +149,9 @@ function MainContent() {
               <CartStyle key={task.task_id}>
                 <h1 className="cart-title">{task.title}</h1>
                 <p className="cart-desc">{task.description}</p>
-                <p className="cart-created">
-                  some date shoudl display
-                  {/* {task?.createDateFormat} */}
-                </p>
+                <p className="cart-created">{task?.createDateFormat}</p>
                 <div className="cart-footer">
-                  <p>{task.timeAgo}razz</p>
+                  <p>{task.timeAgo}</p>
                   <p style={{ color: task.color }}>
                     {task.status.charAt(0).toUpperCase() + task.status.slice(1)}
                   </p>
