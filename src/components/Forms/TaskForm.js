@@ -94,7 +94,7 @@ export const TaskForm = ({
   };
   return (
     <TaskFormStyle isVisible={isVisible}>
-      <form method="post" onSubmit={handleFormSubmit}>
+      <form method="post" onSubmit={handleFormSubmit} className="flex-col">
         <div className="frm-grp">
           <label>Title</label>
           <input ref={titleRef} type="text" placeholder={"Ex: Read the book"} />
@@ -108,17 +108,19 @@ export const TaskForm = ({
             placeholder={"Ex: Read 10 pages from the book"}
           ></textarea>
         </div>
-        <div className="frm-grp">
-          <label>Select Priority</label>
-          <select ref={statusRef}>
-            <option value={"low"}>Low</option>
-            <option value={"medium"}>Medium</option>
-            <option value={"hard"}>Hard</option>
-          </select>
-        </div>
-        <div className="frm-grp">
-          <label>Due Date</label>
-          <input ref={dueDateRef} type="date" placeholder="select date" />
+        <div className="flex-center">
+          <div className="frm-grp">
+            <label>Select Priority</label>
+            <select ref={statusRef}>
+              <option value={"low"}>Low</option>
+              <option value={"medium"}>Medium</option>
+              <option value={"hard"}>Hard</option>
+            </select>
+          </div>
+          <div className="frm-grp">
+            <label>Due Date</label>
+            <input ref={dueDateRef} type="date" placeholder="select date" />
+          </div>
         </div>
         <div className="frm-grp">
           <label>Task Completed</label>

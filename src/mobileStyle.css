@@ -136,8 +136,8 @@
     /* background: green !important; */
   }
 
-  .analytics-active .profile-container{
-    display:flex;
+  .analytics-active .profile-container {
+    display: flex;
   }
 }
 
@@ -156,4 +156,48 @@
   .analytics {
     display: none;
   }
+}
+
+@media (min-width: 650px) {
+  .flex-center {
+    display: flex;
+    margin: 0 15px;
+    justify-content: center;
+    align-items: center;
+  }
+  input,
+  select {
+    height: 30px !important;
+    padding: 3px !important;
+    font-size: 16px;
+  }
+
+  textarea {
+    height: 50px !important;
+    padding: 3px;
+    font-size: 16px;
+    background-color: red;
+  }
+
+  .frm-grp-status {
+    height: 30px !important;
+    background: red;
+  }
+
+  .frm-grp-status span {
+    font-size: 16px !important;
+  }
+
+  label {
+    font-size: 17px !important;
+  }
+  button {
+    font-size: 17px !important;
+  }
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }

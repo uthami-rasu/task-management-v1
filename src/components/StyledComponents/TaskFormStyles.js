@@ -28,7 +28,7 @@ const TaskFormStyle = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 430px;
+  height: 450px;
   width: 320px;
   border-radius: 0.8rem;
   background: #eaeaea;
@@ -45,5 +45,10 @@ const TaskFormStyle = styled.div`
       : css`
           animation: ${fadeOut} 0.3s forwards;
         `}
+  @media(min-width:680px) {
+    height: 400px;
+    width: 550px;
+  }
+  background: #fff;
 `;
 export { TaskFormStyle };

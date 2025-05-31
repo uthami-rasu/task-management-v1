@@ -170,6 +170,7 @@ select,
   outline: none;
   border-radius: 0.2rem;
 }
+
 .frm-grp input {
   width: 100%;
   height: 1.6rem;
@@ -306,5 +307,3 @@ select,
   font-size: 1.5rem;
   color: #333;
 }
-
-
