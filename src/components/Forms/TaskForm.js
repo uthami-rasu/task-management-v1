@@ -97,7 +97,12 @@ export const TaskForm = ({
       <form method="post" onSubmit={handleFormSubmit} className="flex-col">
         <div className="frm-grp">
           <label>Title</label>
-          <input ref={titleRef} type="text" placeholder={"Ex: Read the book"} />
+          <input
+            ref={titleRef}
+            type="text"
+            className="tf-style"
+            placeholder={"Ex: Read the book"}
+          />
         </div>
         <div className="frm-grp">
           <label>Description</label>
@@ -111,7 +116,7 @@ export const TaskForm = ({
         <div className="flex-center">
           <div className="frm-grp">
             <label>Select Priority</label>
-            <select ref={statusRef}>
+            <select ref={statusRef} className="tf-style">
               <option value={"low"}>Low</option>
               <option value={"medium"}>Medium</option>
               <option value={"hard"}>Hard</option>
@@ -119,7 +124,12 @@ export const TaskForm = ({
           </div>
           <div className="frm-grp">
             <label>Due Date</label>
-            <input ref={dueDateRef} type="date" placeholder="select date" />
+            <input
+              ref={dueDateRef}
+              type="date"
+              placeholder="select date"
+              className="tf-style"
+            />
           </div>
         </div>
         <div className="frm-grp">
@@ -128,7 +138,7 @@ export const TaskForm = ({
             <span style={{ marginLeft: "4px", fontSize: "0.8rem" }}>
               Completed
             </span>
-            <select ref={isCompletedRef}>
+            <select ref={isCompletedRef} className="tf-style">
               <option value={"no"} defaultChecked>
                 No
               </option>
