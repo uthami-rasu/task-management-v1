@@ -53,7 +53,6 @@ function DynamicMainContent({ cType }) {
       let response = await fetch("/api/tasks", {
         method: "GET",
         credentials: "include",
-       
       });
 
       if (!response.ok) {
@@ -166,6 +165,7 @@ function DynamicMainContent({ cType }) {
               <CartStyle key={task.task_id}>
                 <h1 className="cart-title">{task.title}</h1>
                 <p className="cart-desc">{task.description}</p>
+                <p className="cart-created">{task?.createDateFormat}</p>
                 <div className="cart-footer">
                   <p>{task.timeAgo}</p>
                   <p style={{ color: task.color }}>

@@ -201,3 +201,8 @@
   flex-direction: column;
   gap: 5px;
 }
+
+.cart-created {
+  font-size: 15px;
+  color: #242424;
+}
